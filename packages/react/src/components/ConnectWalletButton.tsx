@@ -8,7 +8,7 @@ export const ConnectWalletButton = React.forwardRef<
   const { activeAddress } = useWallet()
 
   const defaultStyles =
-    'bg-[#2D2DF1] text-white font-bold py-2.5 px-4 rounded-xl disabled:opacity-50 wallet-custom-font'
+    'bg-[#2D2DF1] transition-colors hover:bg-[#2929D9] text-white font-bold py-2.5 px-4 rounded-xl disabled:opacity-50 wallet-custom-font'
 
   // TODO: Later, this button will change appearance if wallet is connected
   if (activeAddress) {
