@@ -87,8 +87,11 @@ export function WalletDialog({ children }: WalletDialogProps) {
               >
                 {/* Header */}
                 <div className="relative flex items-center px-6 pt-5 pb-4">
-                  <h2 id={labelId} className="text-xl font-bold text-gray-900">
-                    Connect your wallet
+                  <h2
+                    id={labelId}
+                    className="text-xl font-bold text-gray-900 wallet-custom-font"
+                  >
+                    Connect a Wallet
                   </h2>
                   {/* Close button */}
                   <button

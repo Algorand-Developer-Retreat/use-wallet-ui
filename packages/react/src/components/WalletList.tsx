@@ -21,7 +21,9 @@ export function WalletList({ wallets, handleWalletClick }: WalletListProps) {
                 className="h-8 w-8 object-contain rounded-md"
               />
             </div>
-            <span className="text-lg font-medium">{wallet.metadata.name}</span>
+            <span className="text-lg font-bold wallet-custom-font">
+              {wallet.metadata.name}
+            </span>
           </button>
         </li>
       ))}

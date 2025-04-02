@@ -20,6 +20,7 @@ export default defineConfig({
           entryFileNames: 'index.js',
           preserveModules: false,
           exports: 'named',
+          assetFileNames: 'assets/[name][extname]',
         },
         {
           format: 'cjs',
@@ -27,6 +28,7 @@ export default defineConfig({
           entryFileNames: 'index.cjs',
           preserveModules: false,
           exports: 'named',
+          assetFileNames: 'assets/[name][extname]',
         },
       ],
       treeshake: {
@@ -60,4 +62,6 @@ export default defineConfig({
       },
     }),
   ],
+  // Ensure proper asset handling
+  assetsInclude: ['**/*.woff2'],
 })
