@@ -55,8 +55,6 @@ const performFontInjection = (): void => {
       
       .wallet-custom-font {
         font-family: 'Aeonik', system-ui, sans-serif !important;
-        transform: scale(1.05);
-        transform-origin: left;
       }
     `
     document.head.appendChild(style)
