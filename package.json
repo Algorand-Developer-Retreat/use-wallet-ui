@@ -1,0 +1,60 @@
+{
+  "name": "@txnlab/use-wallet-ui-monorepo",
+  "private": true,
+  "description": "Monorepo for use-wallet UI and related packages",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm --filter @txnlab/use-wallet-ui-react build",
+    "build:examples": "pnpm --filter @txnlab/use-wallet-ui-react-example build",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "format": "pnpm -r format",
+    "typecheck": "pnpm --filter @txnlab/use-wallet-ui-react typecheck",
+    "fresh-install": "rm -rf node_modules packages/*/node_modules examples/*/node_modules && pnpm install"
+  },
+  "keywords": [
+    "algorand",
+    "wallet",
+    "use-wallet",
+    "react",
+    "vue",
+    "solid",
+    "ui"
+  ],
+  "author": "TxnLab Inc.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Algorand-Developer-Retreat/use-wallet-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Algorand-Developer-Retreat/use-wallet-ui/issues"
+  },
+  "homepage": "https://github.com/Algorand-Developer-Retreat/use-wallet-ui#readme",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=9"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@tanstack/config": "^0.16.2",
+    "@typescript-eslint/eslint-plugin": "^8.24.1",
+    "@typescript-eslint/parser": "^8.24.1",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-import-x": "^4.10.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "eslint-plugin-unicorn": "^57.0.0",
+    "globals": "^15.15.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "@txnlab/use-wallet-ui-react": "workspace:*"
+    }
+  }
+}

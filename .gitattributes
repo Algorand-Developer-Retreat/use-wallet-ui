@@ -1,0 +1,35 @@
+# Auto detect text files and perform LF normalization
+* text=auto eol=lf
+
+# Source code
+*.ts text
+*.tsx text
+*.js text
+*.jsx text
+*.json text
+*.yaml text
+*.yml text
+*.md text
+
+# Documentation
+*.md text diff=markdown
+*.mdx text diff=markdown
+
+# Configs
+.env.example text
+.gitattributes text
+.gitignore text
+*.lock text -diff
+package-lock.json text -diff
+pnpm-lock.yaml text -diff
+
+# Graphics
+*.ico binary
+*.png binary
+*.jpg binary
+*.gif binary
+*.svg text
+
+# RC files
+.*rc text
+.env.example text 

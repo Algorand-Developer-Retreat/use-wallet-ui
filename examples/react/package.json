@@ -1,0 +1,32 @@
+{
+  "name": "@txnlab/use-wallet-ui-react-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@blockshake/defly-connect": "^1.2.1",
+    "@perawallet/connect": "^1.4.2",
+    "@tailwindcss/vite": "^4.1.0",
+    "@txnlab/use-wallet-react": "^4.0.1",
+    "@txnlab/use-wallet-ui-react": "workspace:*",
+    "@walletconnect/modal": "^2.7.0",
+    "@walletconnect/sign-client": "^2.19.2",
+    "algosdk": "^3.2.0",
+    "lute-connect": "^1.5.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.17",
+    "vite-plugin-node-polyfills": "^0.23.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.2.0"
+  }
+}
