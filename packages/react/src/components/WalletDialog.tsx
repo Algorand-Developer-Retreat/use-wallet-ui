@@ -11,7 +11,7 @@ import {
   useId,
 } from '@floating-ui/react'
 import { useWallet } from '@txnlab/use-wallet-react'
-import React, { ReactElement, RefObject } from 'react'
+import React, { ReactElement, RefObject, useState } from 'react'
 
 import { WalletList } from './WalletList'
 
@@ -27,12 +27,35 @@ export interface WalletDialogProps {
 }
 
 export function WalletDialog({ children }: WalletDialogProps) {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [animationState, setAnimationState] = useState<
+    'starting' | 'entered' | 'exiting' | null
+  >(null)
+
   const { wallets } = useWallet()
 
   const { refs, context } = useFloating({
     open: isOpen,
-    onOpenChange: setIsOpen,
+    onOpenChange: (open) => {
+      if (open) {
+        setIsOpen(true)
+        setAnimationState('starting')
+
+        // Start entry animation
+        requestAnimationFrame(() => {
+          setAnimationState('entered')
+        })
+      } else {
+        // Start exit animation
+        setAnimationState('exiting')
+
+        // Remove component after animation completes
+        setTimeout(() => {
+          setIsOpen(false)
+          setAnimationState(null)
+        }, 150)
+      }
+    },
   })
 
   // Interaction hooks
@@ -54,10 +77,10 @@ export function WalletDialog({ children }: WalletDialogProps) {
   const handleWalletClick = async (wallet: Wallet) => {
     try {
       await wallet.connect()
-      setIsOpen(false)
+      context.onOpenChange(false)
     } catch (error) {
       console.error(`Error connecting to ${wallet.metadata.name}:`, error)
-      setIsOpen(false)
+      context.onOpenChange(false)
     }
   }
 
@@ -73,7 +96,8 @@ export function WalletDialog({ children }: WalletDialogProps) {
       <FloatingPortal id="wallet-dialog-portal">
         {isOpen && (
           <FloatingOverlay
-            className="grid place-items-center bg-black/30 z-50"
+            className="grid place-items-center z-50 transition-opacity duration-150 ease-in-out bg-black/30 data-[state=starting]:opacity-0 data-[state=exiting]:opacity-0 data-[state=entered]:opacity-100"
+            data-state={animationState}
             lockScroll
           >
             <FloatingFocusManager context={context} modal={true}>
@@ -83,7 +107,11 @@ export function WalletDialog({ children }: WalletDialogProps) {
                   'aria-labelledby': labelId,
                   'aria-describedby': descriptionId,
                 })}
-                className="w-full max-w-sm rounded-3xl bg-white shadow-xl"
+                data-state={animationState}
+                className="w-full max-w-sm rounded-3xl bg-white shadow-xl transform transition-all duration-150 ease-in-out data-[state=starting]:opacity-0 data-[state=starting]:scale-90 data-[state=exiting]:opacity-0 data-[state=exiting]:scale-90 data-[state=entered]:opacity-100 data-[state=entered]:scale-100"
+                style={{
+                  marginTop: '-0.5rem',
+                }}
               >
                 {/* Header */}
                 <div className="relative flex items-center px-6 pt-5 pb-4">
@@ -95,7 +123,7 @@ export function WalletDialog({ children }: WalletDialogProps) {
                   </h2>
                   {/* Close button */}
                   <button
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => context.onOpenChange(false)}
                     className="absolute right-4 rounded-full bg-gray-100 p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-700"
                     aria-label="Close dialog"
                   >
