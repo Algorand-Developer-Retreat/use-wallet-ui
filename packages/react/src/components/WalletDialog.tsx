@@ -96,7 +96,7 @@ export function WalletDialog({ children }: WalletDialogProps) {
       <FloatingPortal id="wallet-dialog-portal">
         {isOpen && (
           <FloatingOverlay
-            className="grid place-items-center z-50 transition-opacity duration-150 ease-in-out bg-black/30 data-[state=starting]:opacity-0 data-[state=exiting]:opacity-0 data-[state=entered]:opacity-100"
+            className="grid place-items-center z-50 transition-opacity duration-150 ease-in-out bg-black/30 dark:bg-black/50 data-[state=starting]:opacity-0 data-[state=exiting]:opacity-0 data-[state=entered]:opacity-100"
             data-state={animationState}
             lockScroll
           >
@@ -108,7 +108,7 @@ export function WalletDialog({ children }: WalletDialogProps) {
                   'aria-describedby': descriptionId,
                 })}
                 data-state={animationState}
-                className="w-full max-w-sm rounded-3xl bg-white shadow-xl transform transition-all duration-150 ease-in-out data-[state=starting]:opacity-0 data-[state=starting]:scale-90 data-[state=exiting]:opacity-0 data-[state=exiting]:scale-90 data-[state=entered]:opacity-100 data-[state=entered]:scale-100"
+                className="w-full max-w-sm rounded-3xl bg-white dark:bg-[#001324] shadow-xl transform transition-all duration-150 ease-in-out data-[state=starting]:opacity-0 data-[state=starting]:scale-90 data-[state=exiting]:opacity-0 data-[state=exiting]:scale-90 data-[state=entered]:opacity-100 data-[state=entered]:scale-100"
                 style={{
                   marginTop: '-0.5rem',
                 }}
@@ -117,14 +117,14 @@ export function WalletDialog({ children }: WalletDialogProps) {
                 <div className="relative flex items-center px-6 pt-5 pb-4">
                   <h2
                     id={labelId}
-                    className="text-xl font-bold text-gray-900 wallet-custom-font"
+                    className="text-xl font-bold text-gray-900 dark:text-[#E9E9FD] wallet-custom-font"
                   >
                     Connect a Wallet
                   </h2>
                   {/* Close button */}
                   <button
                     onClick={() => context.onOpenChange(false)}
-                    className="absolute right-4 rounded-full bg-gray-100 p-2 text-gray-500 hover:bg-gray-200 hover:text-gray-700"
+                    className="absolute right-4 rounded-full bg-gray-100 dark:bg-[#192A39]/75 p-2 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-[#192A39] hover:text-gray-700 dark:hover:text-[#D4D4FA]"
                     aria-label="Close dialog"
                   >
                     <svg
@@ -151,13 +151,13 @@ export function WalletDialog({ children }: WalletDialogProps) {
                 </div>
 
                 {/* Footer section */}
-                <div className="px-6 py-5 border-t border-gray-200 flex items-center justify-between">
-                  <span className="text-gray-600 text-sm">
+                <div className="px-6 py-5 border-t border-gray-200 dark:border-[#192A39] flex items-center justify-between">
+                  <span className="text-gray-600 dark:text-[#99A1A7] text-sm">
                     Need an Algorand wallet?
                   </span>
                   <a
                     href="https://algorand.co/wallets"
-                    className="text-[#2D2DF1]/80 font-medium text-sm hover:text-[#2D2DF1]"
+                    className="text-[#2D2DF1]/80 dark:text-[#6C6CF1] font-medium text-sm hover:text-[#2D2DF1] dark:hover:text-[#8080F3]"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

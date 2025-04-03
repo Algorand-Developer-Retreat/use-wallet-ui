@@ -23,7 +23,7 @@ const walletManager = new WalletManager({
 function App() {
   return (
     <WalletProvider manager={walletManager}>
-      <div className="flex flex-col items-center justify-center h-screen">
+      <div className="flex flex-col items-center justify-center h-screen dark:bg-[#001324]">
         <WalletDialog>
           <ConnectWalletButton />
         </WalletDialog>
