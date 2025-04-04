@@ -179,46 +179,38 @@ export function ConnectedWalletMenu({ children }: ConnectedWalletMenuProps) {
                               </svg>
                             </span>
                           </ListboxButton>
-                          <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-[#101B29] py-1 shadow-lg ring-1 ring-black/5 dark:ring-[#192A39]/50 focus:outline-none text-sm">
+                          <ListboxOptions
+                            transition
+                            className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-[#101B29] py-1 shadow-lg ring-1 ring-black/5 dark:ring-[#192A39]/50 focus:outline-none text-sm data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in"
+                          >
                             {activeWallet.accounts.map((account) => (
                               <ListboxOption
                                 key={account.address}
                                 value={account.address}
-                                className={({ active }) =>
-                                  `relative cursor-default select-none py-2 pl-3 pr-9 
-                                ${active ? 'bg-[#E9E9FD] dark:bg-[#192A39] text-gray-900 dark:text-[#E9E9FD]' : 'text-gray-900 dark:text-gray-300'}`
-                                }
+                                className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 dark:text-gray-300 data-[focus]:bg-[#E9E9FD] dark:data-[focus]:bg-[#192A39] data-[focus]:text-gray-900 dark:data-[focus]:text-[#E9E9FD] data-[focus]:outline-none"
                               >
-                                {({ selected }) => (
-                                  <>
-                                    <span
-                                      className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
-                                    >
-                                      {ellipseAddress(account.address)}
-                                    </span>
-                                    {selected && (
-                                      <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          width="16"
-                                          height="16"
-                                          viewBox="0 0 16 16"
-                                          fill="none"
-                                          className="h-5 w-5 text-[#2D2DF1] dark:text-[#BFBFF9]"
-                                          aria-hidden="true"
-                                        >
-                                          <path
-                                            d="M13.3334 4L6.00008 11.3333L2.66675 8"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          />
-                                        </svg>
-                                      </span>
-                                    )}
-                                  </>
-                                )}
+                                <span className="block truncate font-normal group-data-[selected]:font-medium">
+                                  {ellipseAddress(account.address)}
+                                </span>
+                                <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-[#2D2DF1] dark:text-[#BFBFF9] group-[&:not([data-selected])]:hidden">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 16 16"
+                                    fill="none"
+                                    className="h-5 w-5"
+                                    aria-hidden="true"
+                                  >
+                                    <path
+                                      d="M13.3334 4L6.00008 11.3333L2.66675 8"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </span>
                               </ListboxOption>
                             ))}
                           </ListboxOptions>
