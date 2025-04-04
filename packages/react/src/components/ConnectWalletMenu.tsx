@@ -13,6 +13,7 @@ import {
 import { useWallet } from '@txnlab/use-wallet-react'
 import React, { ReactElement, RefObject, useState } from 'react'
 
+import { ConnectWalletButton } from './ConnectWalletButton'
 import { WalletList } from './WalletList'
 
 import type { Wallet } from '@txnlab/use-wallet-react'
@@ -22,21 +23,24 @@ type RefableElement = ReactElement & {
   ref?: RefObject<HTMLElement> | ((instance: HTMLElement | null) => void)
 }
 
-export interface WalletDialogProps {
+export interface ConnectWalletMenuProps {
   children?: RefableElement
 }
 
-export function WalletDialog({ children }: WalletDialogProps) {
+export function ConnectWalletMenu({ children }: ConnectWalletMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [animationState, setAnimationState] = useState<
     'starting' | 'entered' | 'exiting' | null
   >(null)
 
-  const { wallets } = useWallet()
+  const { wallets, activeAddress } = useWallet()
 
   const { refs, context } = useFloating({
     open: isOpen,
     onOpenChange: (open) => {
+      // Don't open dialog if already connected
+      if (open && activeAddress) return
+
       if (open) {
         setIsOpen(true)
         setAnimationState('starting')
@@ -84,11 +88,32 @@ export function WalletDialog({ children }: WalletDialogProps) {
     }
   }
 
-  const triggerRef = useMergeRefs([refs.setReference, children?.ref || null])
+  // Always add click handler to trigger, but make it a no-op if connected
+  const handleTriggerClick = (_e: React.MouseEvent) => {
+    if (activeAddress) {
+      // Do nothing if connected - let the event bubble up to potential parent handlers
+      return
+    }
+    // Otherwise open the dialog directly
+    context.onOpenChange(true)
+  }
 
-  const trigger = children
-    ? React.cloneElement(children, getReferenceProps({ ref: triggerRef }))
-    : null
+  // If no children are provided, create a default connect button
+  const triggerElement = children || <ConnectWalletButton />
+
+  const triggerRef = useMergeRefs([
+    refs.setReference,
+    (triggerElement as RefableElement).ref || null,
+  ])
+
+  const referenceProps = {
+    ...getReferenceProps(),
+    ref: triggerRef,
+    onClick: handleTriggerClick,
+  }
+
+  // Clone the trigger element with the reference props
+  const trigger = React.cloneElement(triggerElement, referenceProps)
 
   return (
     <>

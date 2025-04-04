@@ -4,7 +4,7 @@ import {
   WalletManager,
   WalletProvider,
 } from '@txnlab/use-wallet-react'
-import { ConnectWalletButton, WalletDialog } from '@txnlab/use-wallet-ui-react'
+import { WalletButton } from '@txnlab/use-wallet-ui-react'
 
 const walletManager = new WalletManager({
   wallets: [
@@ -29,12 +29,12 @@ function App() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               <div className="flex-shrink-0">
-                {/* Logo or site name goes here */}
+                <span className="text-lg font-semibold text-gray-800 dark:text-white">
+                  use-wallet-ui Demo
+                </span>
               </div>
               <div>
-                <WalletDialog>
-                  <ConnectWalletButton />
-                </WalletDialog>
+                <WalletButton />
               </div>
             </div>
           </div>
@@ -42,7 +42,19 @@ function App() {
 
         {/* Content area */}
         <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Content goes here */}
+          <div className="text-center my-12">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Algorand Wallet Integration Example
+            </h1>
+            <p className="mt-4 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              This example demonstrates the use of @txnlab/use-wallet-ui-react
+              components with the simplified API. You can use{' '}
+              <code>{'<WalletButton />'}</code> directly which will show either{' '}
+              <code>{'<ConnectWalletMenu />'}</code> or{' '}
+              <code>{'<ConnectedWalletMenu />'}</code> depending on connection
+              state.
+            </p>
+          </div>
         </main>
       </div>
     </WalletProvider>
