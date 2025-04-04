@@ -1,5 +1,15 @@
 # use-wallet UI
 
+## Prerequisites
+
+This package requires the following peer dependencies:
+
+- `@txnlab/use-wallet-react` v4
+- React v18 or v19
+- Tailwind CSS v4 (v3 support will be added in a future release)
+
+Make sure these dependencies are installed in your project before using `@txnlab/use-wallet-ui-react`.
+
 ## Installation
 
 ```bash
