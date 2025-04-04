@@ -13,6 +13,94 @@ yarn add @txnlab/use-wallet-ui-react
 pnpm add @txnlab/use-wallet-ui-react
 ```
 
+## Usage
+
+There are three main ways to use the wallet UI components:
+
+### Approach 1: Using Default Components (Recommended)
+
+Use the `WalletButton` component for the simplest integration:
+
+```jsx
+import { WalletButton } from '@txnlab/use-wallet-ui-react'
+
+function App() {
+  return (
+    <div>
+      <WalletButton />
+    </div>
+  )
+}
+```
+
+The `WalletButton` component automatically handles both connected and disconnected states.
+
+### Approach 2: Using Customized Button Components with Menus
+
+```jsx
+import { useWallet } from '@txnlab/use-wallet-react'
+import {
+  ConnectWalletButton,
+  ConnectWalletMenu,
+  ConnectedWalletButton,
+  ConnectedWalletMenu,
+} from '@txnlab/use-wallet-ui-react'
+
+function App() {
+  const { activeAddress } = useWallet()
+
+  return (
+    <div>
+      {activeAddress ? (
+        <ConnectedWalletMenu>
+          <ConnectedWalletButton className="border-2 border-blue-500" />
+        </ConnectedWalletMenu>
+      ) : (
+        <ConnectWalletMenu>
+          <ConnectWalletButton className="bg-green-500 hover:bg-green-600">
+            Connect your wallet
+          </ConnectWalletButton>
+        </ConnectWalletMenu>
+      )}
+    </div>
+  )
+}
+```
+
+### Approach 3: Using Completely Custom UI Elements
+
+```jsx
+import { useWallet } from '@txnlab/use-wallet-react'
+import {
+  ConnectWalletMenu,
+  ConnectedWalletMenu,
+} from '@txnlab/use-wallet-ui-react'
+
+function App() {
+  const { activeAddress } = useWallet()
+
+  return (
+    <div>
+      {activeAddress ? (
+        <ConnectedWalletMenu>
+          <button className="custom-connected-button">
+            My Custom Connected Button
+          </button>
+        </ConnectedWalletMenu>
+      ) : (
+        <ConnectWalletMenu>
+          <button className="custom-connect-button">
+            My Custom Connect Button
+          </button>
+        </ConnectWalletMenu>
+      )}
+    </div>
+  )
+}
+```
+
+For more detailed documentation, please refer to the [package README](./packages/react/README.md).
+
 ## Example
 
 Check out the [working example](./examples/react) in the `examples/react` directory.
