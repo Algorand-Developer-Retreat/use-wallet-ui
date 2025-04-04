@@ -123,6 +123,9 @@ importers:
       '@txnlab/use-wallet-react':
         specifier: ^4.0.1
         version: 4.0.1(@blockshake/defly-connect@1.2.1(algosdk@3.2.0))(@perawallet/connect@1.4.2(algosdk@3.2.0))(@walletconnect/modal@2.7.0(@types/react@19.0.12)(react@19.1.0))(@walletconnect/sign-client@2.19.2(typescript@5.8.2))(algosdk@3.2.0)(lute-connect@1.5.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@txnlab/utils-ts':
+        specifier: ^0.1.0
+        version: 0.1.0
     devDependencies:
       '@tanstack/config':
         specifier: ^0.16.2
@@ -1026,6 +1029,10 @@ packages:
         optional: true
       lute-connect:
         optional: true
+
+  '@txnlab/utils-ts@0.1.0':
+    resolution: {integrity: sha512-Zt17JjiAxP8EbJFaAoNeilvJirM+961y5HIJ3V3hiSa9njW3HYlXcCtB7yBs99bCJbFNAezV5MZJiXXFEVEegA==}
+    engines: {node: '>=22', pnpm: '>=9'}
 
   '@tybys/wasm-util@0.9.0':
     resolution: {integrity: sha512-6+7nlbMVX/PVDCwaIQ8nTOPveOcFLSt8GcXdx8hD0bt39uWxYT88uXzqTd4fTvqta7oeUJqudepapKNt2DYJFw==}
@@ -4776,6 +4783,10 @@ snapshots:
       '@walletconnect/modal': 2.7.0(@types/react@19.0.12)(react@19.1.0)
       '@walletconnect/sign-client': 2.19.2(typescript@5.8.2)
       lute-connect: 1.5.1
+
+  '@txnlab/utils-ts@0.1.0':
+    dependencies:
+      bignumber.js: 9.1.2
 
   '@tybys/wasm-util@0.9.0':
     dependencies:

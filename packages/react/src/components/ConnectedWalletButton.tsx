@@ -1,4 +1,5 @@
 import { useWallet } from '@txnlab/use-wallet-react'
+import { formatNumber } from '@txnlab/utils-ts'
 import React, { useEffect, useState } from 'react'
 
 export interface ConnectedWalletButtonProps
@@ -57,7 +58,10 @@ export const ConnectedWalletButton = React.forwardRef<
               className="flex items-center py-2.5 px-4 bg-gray-100 dark:bg-[#101B29] text-gray-600 dark:text-gray-400 rounded-xl mr-[-22px] font-medium"
               style={{ paddingRight: '32px' }}
             >
-              {algoBalance.toFixed(4)} ALGO
+              {formatNumber(algoBalance, {
+                fractionDigits: 4,
+              })}{' '}
+              ALGO
             </div>
           )}
 

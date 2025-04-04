@@ -64,7 +64,8 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.5",
-    "@headlessui/react": "^2.2.0"
+    "@headlessui/react": "^2.2.0",
+    "@txnlab/utils-ts": "^0.1.0"
   },
   "devDependencies": {
     "@tanstack/config": "^0.16.2",
