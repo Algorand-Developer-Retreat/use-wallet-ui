@@ -68,7 +68,6 @@
     "@txnlab/utils-ts": "^0.1.0"
   },
   "devDependencies": {
-    "@tanstack/config": "^0.16.2",
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "publint": "^0.3.6",
