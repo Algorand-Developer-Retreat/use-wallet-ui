@@ -38,8 +38,8 @@ export const ConnectedWalletButton = React.forwardRef<
     fetchBalance()
   }, [activeAddress, algodClient, showBalance])
 
-  // Style for the connected button
-  const connectedButtonStyles = 'flex items-center font-medium text-sm'
+  // Style for the connected button to match ConnectWalletButton height exactly
+  const connectedButtonStyles = 'flex items-center'
 
   return (
     <button
@@ -54,15 +54,15 @@ export const ConnectedWalletButton = React.forwardRef<
           {/* Conditionally render balance */}
           {showBalance && algoBalance !== null && (
             <div
-              className="flex items-center h-9 px-3 py-1.5 bg-gray-100 dark:bg-[#101B29] text-gray-600 dark:text-gray-400 rounded-xl mr-[-20px]"
-              style={{ paddingRight: '28px' }}
+              className="flex items-center py-2.5 px-4 bg-gray-100 dark:bg-[#101B29] text-gray-600 dark:text-gray-400 rounded-xl mr-[-22px] font-medium"
+              style={{ paddingRight: '32px' }}
             >
               {algoBalance.toFixed(4)} ALGO
             </div>
           )}
 
           {/* Always render the address */}
-          <div className="flex items-center h-9 px-3 py-1.5 bg-[#2D2DF1] dark:bg-[#BFBFF9] text-white dark:text-[#001324] rounded-xl">
+          <div className="flex items-center py-2.5 px-4 bg-[#2D2DF1] dark:bg-[#BFBFF9] text-white dark:text-[#001324] rounded-xl font-bold">
             {activeAddress?.substring(0, 6)}...
             {activeAddress?.substring(activeAddress?.length - 4)}
           </div>
