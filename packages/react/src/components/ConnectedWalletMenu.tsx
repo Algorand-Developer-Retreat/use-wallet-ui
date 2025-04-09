@@ -18,10 +18,27 @@ import {
   ListboxOption,
   ListboxOptions,
 } from '@headlessui/react'
-import { useWallet } from '@txnlab/use-wallet-react'
-import React, { ReactElement, RefObject, useState } from 'react'
+import { useWallet, useNetwork } from '@txnlab/use-wallet-react'
+import React, { ReactElement, RefObject, useState, useEffect } from 'react'
 
 import { ConnectedWalletButton } from './ConnectedWalletButton'
+
+// NFD types
+type NfdRecord = {
+  name: string
+  properties: {
+    verified: {
+      [key: string]: boolean
+    }
+    userDefined: {
+      [key: string]: string
+    }
+  }
+}
+
+type NfdLookupResponse = {
+  [address: string]: NfdRecord | null
+}
 
 // A more specific type for the children that includes ref
 type RefableElement = ReactElement & {
@@ -30,12 +47,19 @@ type RefableElement = ReactElement & {
 
 export interface ConnectedWalletMenuProps {
   children?: RefableElement
+  /** Whether to fetch and display NFD names. Defaults to true. */
+  fetchNfd?: boolean
 }
 
-export function ConnectedWalletMenu({ children }: ConnectedWalletMenuProps) {
+export function ConnectedWalletMenu({
+  children,
+  fetchNfd = true,
+}: ConnectedWalletMenuProps) {
   const { activeAddress, activeWallet } = useWallet()
+  const { activeNetwork } = useNetwork()
   const [isOpen, setIsOpen] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
+  const [nfdName, setNfdName] = useState<string | null>(null)
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -53,6 +77,53 @@ export function ConnectedWalletMenu({ children }: ConnectedWalletMenuProps) {
   ])
 
   const labelId = useId()
+
+  // NFD lookup based on activeAddress and activeNetwork
+  useEffect(() => {
+    // Skip fetching if fetchNfd is false or no activeAddress
+    if (!fetchNfd || !activeAddress) {
+      setNfdName(null)
+      return
+    }
+
+    const fetchNfdName = async () => {
+      try {
+        // Determine the API endpoint based on the network
+        // Only check for TestNet, otherwise use MainNet
+        const isTestnet = activeNetwork === 'testnet'
+        const apiEndpoint = isTestnet
+          ? 'https://api.testnet.nf.domains'
+          : 'https://api.nf.domains'
+
+        const response = await fetch(
+          `${apiEndpoint}/nfd/lookup?address=${encodeURIComponent(activeAddress)}`,
+          {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+            },
+          },
+        )
+
+        if (response.ok) {
+          const data: NfdLookupResponse = await response.json()
+          const nfd = data[activeAddress]
+          if (nfd) {
+            setNfdName(nfd.name)
+          } else {
+            setNfdName(null)
+          }
+        } else {
+          setNfdName(null)
+        }
+      } catch (error) {
+        console.error('Error fetching NFD name:', error)
+        setNfdName(null)
+      }
+    }
+
+    fetchNfdName()
+  }, [activeAddress, activeNetwork, fetchNfd])
 
   const handleCopyAddress = () => {
     if (activeAddress) {
@@ -85,7 +156,9 @@ export function ConnectedWalletMenu({ children }: ConnectedWalletMenuProps) {
   }
 
   // If no children are provided, create the default connected button
-  const triggerElement = children || <ConnectedWalletButton />
+  const triggerElement = children || (
+    <ConnectedWalletButton fetchNfd={fetchNfd} />
+  )
 
   // Clone the trigger element with the reference props
   const trigger = React.cloneElement(
@@ -128,13 +201,19 @@ export function ConnectedWalletMenu({ children }: ConnectedWalletMenuProps) {
                       id={labelId}
                       className="text-lg font-bold text-gray-900 dark:text-[#E9E9FD] wallet-custom-font"
                     >
-                      {activeAddress
-                        ? ellipseAddress(activeAddress)
-                        : 'My Wallet'}
+                      {nfdName ||
+                        (activeAddress
+                          ? ellipseAddress(activeAddress)
+                          : 'My Wallet')}
                     </h3>
-                    {activeWallet && (
+                    {activeAddress && !nfdName && (
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {activeWallet.metadata.name}
+                        {ellipseAddress(activeAddress)}
+                      </p>
+                    )}
+                    {nfdName && activeAddress && (
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {ellipseAddress(activeAddress)}
                       </p>
                     )}
                   </div>
@@ -218,6 +297,45 @@ export function ConnectedWalletMenu({ children }: ConnectedWalletMenuProps) {
                       </Listbox>
                     </div>
                   )}
+
+                {/* Divider */}
+                <div className="border-t border-gray-200 dark:border-[#192A39] mt-2 mb-2"></div>
+
+                {/* Wallet info section */}
+                {activeWallet && (
+                  <div className="mb-2 flex items-center gap-2 px-1 py-0.5">
+                    <div className="h-5 w-5 flex items-center justify-center">
+                      {activeWallet.metadata.icon ? (
+                        <img
+                          src={activeWallet.metadata.icon}
+                          alt={`${activeWallet.metadata.name} icon`}
+                          className="max-w-full max-h-full"
+                        />
+                      ) : (
+                        <div className="h-5 w-5 rounded-full bg-gray-200 dark:bg-[#192A39] flex items-center justify-center">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3 w-3 text-gray-400"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M17 9c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1h4c.55 0 1-.45 1-1V9zm-1 0v8h-4V9h4zM8 4c0-.55-.45-1-1-1H3c-.55 0-1 .45-1 1v13c0 .55.45 1 1 1h4c.55 0 1-.45 1-1V4zM3 3h4v14H3V3z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      {activeWallet.metadata.name}
+                    </p>
+                  </div>
+                )}
+
+                {/* Divider */}
+                <div className="border-t border-gray-200 dark:border-[#192A39] mb-3 mt-2"></div>
 
                 {/* Action buttons */}
                 <div className="flex gap-2">
