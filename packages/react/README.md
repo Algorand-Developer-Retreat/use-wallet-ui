@@ -198,6 +198,30 @@ If you already use Tanstack Query in your app, you can pass your QueryClient:
 </WalletUIProvider>
 ```
 
+#### Account Data Prefetching
+
+The WalletUIProvider automatically prefetches data for all accounts in a connected wallet, not just the active one. This provides a smoother user experience when switching between accounts in the same wallet, as the data is already in the cache.
+
+This prefetching:
+
+- Happens once when a wallet is first connected
+- Uses efficient batch requests for NFD lookups (up to 20 addresses per request)
+- Prefetches both NFD data and account balances
+- Will trigger again if the wallet disconnects and reconnects
+
+You can configure or disable this behavior:
+
+```jsx
+<WalletUIProvider
+  // Turn off automatic prefetching if desired (enabled by default)
+  enablePrefetching={false}
+  // Change the NFD view type for prefetching (defaults to 'thumbnail')
+  prefetchNfdView="brief"
+>
+  {/* Your app content */}
+</WalletUIProvider>
+```
+
 ### WalletButton
 
 The main component for most use cases. It intelligently switches between:
