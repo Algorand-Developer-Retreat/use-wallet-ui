@@ -1,7 +1,8 @@
 import { useWallet } from '@txnlab/use-wallet-react'
 import { formatNumber } from '@txnlab/utils-ts'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
+import { useBalance } from '../hooks/useBalance'
 import { useNfd } from '../hooks/useNfd'
 
 export interface ConnectedWalletButtonProps
@@ -13,37 +14,20 @@ export const ConnectedWalletButton = React.forwardRef<
   HTMLButtonElement,
   ConnectedWalletButtonProps
 >(({ className = '', showBalance = true, children, ...props }, ref) => {
-  const { activeAddress, algodClient } = useWallet()
-  const [algoBalance, setAlgoBalance] = useState<number | null>(null)
+  const { activeAddress } = useWallet()
+
+  // Use the balance hook (returns microalgos)
+  const { data: microAlgos } = useBalance({ enabled: showBalance })
+
+  // Convert microalgos to ALGO (1 ALGO = 1,000,000 microalgos)
+  const algoBalance =
+    microAlgos !== null && microAlgos !== undefined
+      ? microAlgos / 1_000_000
+      : null
 
   // Use the NFD hook
   const nfdQuery = useNfd()
   const nfdName = nfdQuery.data?.name ?? null
-
-  useEffect(() => {
-    // Only fetch balance if showBalance is true
-    if (!showBalance) return
-
-    const fetchBalance = async () => {
-      if (activeAddress && algodClient) {
-        try {
-          const accountInfo = await algodClient
-            .accountInformation(activeAddress)
-            .do()
-          const microAlgos = Number(accountInfo.amount)
-          const balance = microAlgos / 1_000_000
-          setAlgoBalance(balance)
-        } catch (error) {
-          console.error('Error fetching account balance:', error)
-          setAlgoBalance(null)
-        }
-      } else {
-        setAlgoBalance(null)
-      }
-    }
-
-    fetchBalance()
-  }, [activeAddress, algodClient, showBalance])
 
   // Style for the connected button to match ConnectWalletButton height exactly
   const connectedButtonStyles = 'flex items-center'

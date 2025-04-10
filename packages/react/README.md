@@ -303,6 +303,49 @@ const nfdQuery = useNfd({
 
 For more information about NFDs, visit the [official NFD website](https://app.nf.domains/).
 
+## ALGO Balance Integration
+
+The library also provides a `useBalance` hook to easily fetch the ALGO balance for the connected wallet address. This hook uses Tanstack Query for efficient data fetching and caching.
+
+```jsx
+import { useBalance } from '@txnlab/use-wallet-ui-react'
+
+function MyComponent() {
+  const balanceQuery = useBalance()
+
+  if (balanceQuery.isLoading) {
+    return <div>Loading balance...</div>
+  }
+
+  // The hook returns microalgos (1 ALGO = 1,000,000 microalgos)
+  const microAlgos = balanceQuery.data
+
+  // Convert to ALGO for display
+  const algoBalance = microAlgos !== null ? microAlgos / 1_000_000 : null
+
+  return (
+    <div>
+      {algoBalance !== null ? `${algoBalance} ALGO` : 'No balance found'}
+    </div>
+  )
+}
+```
+
+The hook provides:
+
+- Automatic fetching of the wallet's balance in microalgos
+- Loading and error states
+- Proper caching to minimize API calls
+
+You can also configure the balance lookup:
+
+```jsx
+// Using with options
+const balanceQuery = useBalance({
+  enabled: true, // Whether to enable the balance lookup (default: true)
+})
+```
+
 ## How It Works
 
 Both `ConnectWalletMenu` and `ConnectedWalletMenu` provide default UI elements when no children are passed:
