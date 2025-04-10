@@ -229,6 +229,15 @@ The main component for most use cases. It intelligently switches between:
 - `ConnectWalletMenu` (with default connect button) when disconnected
 - `ConnectedWalletMenu` (with default wallet display) when connected
 
+```jsx
+<WalletButton
+  showBalance={true} // Whether to show the balance (default: true)
+  showAvailableBalance={false} // Whether to show available balance instead of full balance (default: false)
+/>
+```
+
+For styling and other customizations, use the component-specific approaches (Approach 2 or 3) instead.
+
 ### ConnectWalletMenu
 
 The menu for connecting a wallet. It provides a default connect button when no children are provided:
@@ -277,6 +286,7 @@ The default button for the connected state that displays the wallet address and 
 <ConnectedWalletButton
   className="custom-class"
   showBalance={true} // Set to false to hide balance
+  showAvailableBalance={false} // Set to true to show available balance (amount - minBalance) instead of full balance
 />
 ```
 
@@ -329,27 +339,38 @@ For more information about NFDs, visit the [official NFD website](https://app.nf
 
 ## ALGO Balance Integration
 
-The library also provides a `useBalance` hook to easily fetch the ALGO balance for the connected wallet address. This hook uses Tanstack Query for efficient data fetching and caching.
+The library provides a `useAccountInfo` hook to easily fetch the account information for the connected wallet address, including the ALGO balance. This hook uses Tanstack Query for efficient data fetching and caching.
 
 ```jsx
-import { useBalance } from '@txnlab/use-wallet-ui-react'
+import { useAccountInfo } from '@txnlab/use-wallet-ui-react'
 
 function MyComponent() {
-  const balanceQuery = useBalance()
+  const accountQuery = useAccountInfo()
 
-  if (balanceQuery.isLoading) {
-    return <div>Loading balance...</div>
+  if (accountQuery.isLoading) {
+    return <div>Loading account data...</div>
   }
 
-  // The hook returns microalgos (1 ALGO = 1,000,000 microalgos)
-  const microAlgos = balanceQuery.data
+  // The account info includes amount in microalgos (1 ALGO = 1,000,000 microalgos)
+  const accountInfo = accountQuery.data
 
-  // Convert to ALGO for display
-  const algoBalance = microAlgos !== null ? microAlgos / 1_000_000 : null
+  if (!accountInfo) {
+    return <div>No account data found</div>
+  }
+
+  // Convert microalgos to ALGO for display
+  const algoBalance = Number(accountInfo.amount) / 1_000_000
+
+  // Calculate available balance (total minus minimum required balance)
+  const availableBalance = Math.max(
+    0,
+    (Number(accountInfo.amount) - Number(accountInfo.minBalance)) / 1_000_000,
+  )
 
   return (
     <div>
-      {algoBalance !== null ? `${algoBalance} ALGO` : 'No balance found'}
+      <p>Total Balance: {algoBalance} ALGO</p>
+      <p>Available Balance: {availableBalance} ALGO</p>
     </div>
   )
 }
@@ -357,16 +378,17 @@ function MyComponent() {
 
 The hook provides:
 
-- Automatic fetching of the wallet's balance in microalgos
+- Automatic fetching of the wallet's full account information
+- Access to all account properties including total amount and minimum balance
 - Loading and error states
 - Proper caching to minimize API calls
 
-You can also configure the balance lookup:
+You can also configure the account info lookup:
 
 ```jsx
 // Using with options
-const balanceQuery = useBalance({
-  enabled: true, // Whether to enable the balance lookup (default: true)
+const accountQuery = useAccountInfo({
+  enabled: true, // Whether to enable the account lookup (default: true)
 })
 ```
 
