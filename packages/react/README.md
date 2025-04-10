@@ -290,6 +290,8 @@ The default button for the connected state that displays the wallet address and 
 />
 ```
 
+Note: The balance display is responsive - it is hidden on mobile screens (below 768px) and only shown on medium-sized screens (md breakpoint) and larger for better layout on small devices.
+
 ### NfdAvatar
 
 A component that displays NFD avatar images with automatic handling of IPFS URLs and fallbacks.

@@ -68,7 +68,7 @@ export const ConnectedWalletButton = React.forwardRef<
             {/* Conditionally render balance */}
             {showBalance && algoBalance !== null && (
               <div
-                className="flex items-center py-2.5 px-4 bg-gray-100 dark:bg-[#101B29] text-gray-600 dark:text-gray-400 rounded-xl mr-[-22px] font-medium"
+                className="hidden md:flex items-center py-2.5 px-4 bg-gray-100 dark:bg-[#101B29] text-gray-600 dark:text-gray-400 rounded-xl mr-[-22px] font-medium"
                 style={{ paddingRight: '32px' }}
               >
                 {formatNumber(algoBalance, {
@@ -80,8 +80,12 @@ export const ConnectedWalletButton = React.forwardRef<
 
             {/* Always render the address or NFD name */}
             <div className="flex items-center py-2.5 px-4 bg-[#2D2DF1] dark:bg-[#BFBFF9] text-white dark:text-[#001324] rounded-xl font-bold">
-              {nfdName ||
-                (activeAddress ? formatShortAddress(activeAddress) : 'Connect')}
+              <span className="max-w-[120px] truncate">
+                {nfdName ||
+                  (activeAddress
+                    ? formatShortAddress(activeAddress)
+                    : 'Connect')}
+              </span>
             </div>
           </div>
         )}
