@@ -291,6 +291,16 @@ The hook automatically:
 - Handles loading, error, and not-found states
 - Properly caches results to minimize API calls
 
+You can also configure the NFD lookup by passing options to the hook:
+
+```jsx
+// Using with options
+const nfdQuery = useNfd({
+  enabled: true, // Whether to enable the lookup (default: true)
+  view: 'full', // The data view to request: 'tiny', 'thumbnail', 'brief', or 'full' (default: 'thumbnail')
+})
+```
+
 For more information about NFDs, visit the [official NFD website](https://app.nf.domains/).
 
 ## How It Works

@@ -22,21 +22,24 @@ export type NfdLookupResponse = {
   [address: string]: NfdRecord | null
 }
 
+export type NfdView = 'tiny' | 'thumbnail' | 'brief' | 'full'
+
 /**
  * Custom hook to fetch NFD data for an Algorand address
  *
  * @param options.enabled Whether to enable the NFD lookup (defaults to true)
+ * @param options.view The view type for the NFD lookup ('tiny', 'thumbnail', 'brief', 'full') (defaults to 'thumbnail')
  * @returns NFD data query result
  */
 export function useNfd(
-  options: { enabled?: boolean } = {},
+  options: { enabled?: boolean; view?: NfdView } = {},
 ): UseQueryResult<NfdRecord | null> {
   const { activeAddress } = useWallet()
   const { activeNetwork } = useNetwork()
-  const { enabled = true } = options
+  const { enabled = true, view = 'thumbnail' } = options
 
   return useQuery({
-    queryKey: ['nfd', activeAddress, activeNetwork],
+    queryKey: ['nfd', activeAddress, activeNetwork, view],
     queryFn: async ({ signal }) => {
       if (!activeAddress) return null
 
@@ -48,7 +51,7 @@ export function useNfd(
         : 'https://api.nf.domains'
 
       const response = await fetch(
-        `${apiEndpoint}/nfd/lookup?address=${encodeURIComponent(activeAddress)}&view=thumbnail`,
+        `${apiEndpoint}/nfd/lookup?address=${encodeURIComponent(activeAddress)}&view=${view}`,
         {
           method: 'GET',
           headers: {
