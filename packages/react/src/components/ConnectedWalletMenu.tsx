@@ -109,7 +109,7 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
               style={floatingStyles}
               {...getFloatingProps()}
               aria-labelledby={labelId}
-              className="z-50 w-72 rounded-xl bg-white dark:bg-[#001324] shadow-xl border border-gray-200 dark:border-[#192A39]"
+              className="z-50 w-80 rounded-xl bg-white dark:bg-[#001324] shadow-xl border border-gray-200 dark:border-[#192A39]"
             >
               <div className="p-4">
                 <div className="flex items-center gap-3 mb-4">
@@ -123,21 +123,16 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
                   <div>
                     <h3
                       id={labelId}
-                      className="text-lg font-bold text-gray-900 dark:text-[#E9E9FD] wallet-custom-font"
+                      className="text-lg font-bold text-gray-900 dark:text-[#E9E9FD] max-w-[220px] truncate wallet-custom-font"
                     >
                       {nfdName ||
                         (activeAddress
-                          ? formatShortAddress(activeAddress)
+                          ? formatShortAddress(activeAddress, 6, 4)
                           : 'My Wallet')}
                     </h3>
-                    {activeAddress && !nfdName && (
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {formatShortAddress(activeAddress)}
-                      </p>
-                    )}
                     {nfdName && activeAddress && (
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {formatShortAddress(activeAddress)}
+                        {formatShortAddress(activeAddress, 6, 4)}
                       </p>
                     )}
                   </div>
@@ -159,7 +154,7 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
                           <ListboxButton className="grid w-full cursor-default grid-cols-1 rounded-lg border border-gray-300 dark:border-[#192A39] bg-white dark:bg-[#101B29] py-2 px-3 text-left text-gray-800 dark:text-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2D2DF1] dark:focus:ring-[#BFBFF9] focus:border-transparent text-sm">
                             <span className="col-start-1 row-start-1 truncate pr-8">
                               {activeAddress
-                                ? formatShortAddress(activeAddress)
+                                ? formatShortAddress(activeAddress, 6, 4)
                                 : 'Select account'}
                             </span>
                             <span className="col-start-1 row-start-1 self-center justify-self-end">
@@ -193,7 +188,7 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
                                 className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 dark:text-gray-300 data-[focus]:bg-[#E9E9FD] dark:data-[focus]:bg-[#192A39] data-[focus]:text-gray-900 dark:data-[focus]:text-[#E9E9FD] data-[focus]:outline-none"
                               >
                                 <span className="block truncate font-normal group-data-[selected]:font-medium">
-                                  {formatShortAddress(account.address)}
+                                  {formatShortAddress(account.address, 6, 4)}
                                 </span>
                                 <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-[#2D2DF1] dark:text-[#BFBFF9] group-[&:not([data-selected])]:hidden">
                                   <svg

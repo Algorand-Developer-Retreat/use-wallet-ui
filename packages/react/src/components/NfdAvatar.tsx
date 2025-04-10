@@ -17,6 +17,8 @@ export interface NfdAvatarProps {
   size?: number
   /** Optional fallback element to show when no avatar is available */
   fallback?: React.ReactNode
+  /** Optional flag to show light only avatar */
+  lightOnly?: boolean
 }
 
 /**
@@ -31,6 +33,7 @@ export function NfdAvatar({
   className,
   size = 40,
   fallback,
+  lightOnly = false,
 }: NfdAvatarProps) {
   // Extract the potential avatar URL from the NFD data
   const rawAvatarUrl =
@@ -81,7 +84,10 @@ export function NfdAvatar({
     return (
       <div
         className={cn(
-          'flex items-center justify-center rounded-full bg-gray-200 dark:bg-[#192A39]',
+          'flex items-center justify-center rounded-full',
+          lightOnly
+            ? 'bg-gray-200 dark:bg-gray-200'
+            : 'bg-gray-200 dark:bg-[#192A39]',
           className,
         )}
         style={{
@@ -95,7 +101,7 @@ export function NfdAvatar({
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
-          className="text-gray-400 dark:text-gray-500"
+          className={cn('text-gray-400', !lightOnly && 'dark:text-gray-500')}
           style={{
             width: `${Math.max(size / 2, 12)}px`,
             height: `${Math.max(size / 2, 12)}px`,
