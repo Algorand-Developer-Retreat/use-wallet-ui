@@ -12,6 +12,8 @@ This package requires the following peer dependencies:
 
 Make sure these dependencies are installed in your project before using this package.
 
+Note: While this package uses Tanstack Query internally for certain features (like NFD lookups), you don't need to install it separately unless you want to integrate with your existing Tanstack Query setup.
+
 ## Installation
 
 ```bash
@@ -27,16 +29,64 @@ pnpm add @txnlab/use-wallet-ui-react
 
 ## Usage
 
+### Setting up the Provider
+
+First, wrap your application with the `WalletUIProvider`:
+
+```jsx
+import { WalletProvider } from '@txnlab/use-wallet-react'
+import { WalletUIProvider } from '@txnlab/use-wallet-ui-react'
+
+function App() {
+  return (
+    <WalletProvider>
+      <WalletUIProvider>{/* Your app content */}</WalletUIProvider>
+    </WalletProvider>
+  )
+}
+```
+
+The `WalletUIProvider` handles features like [NFD (Non-Fungible Domains)](https://app.nf.domains/) lookups for Algorand addresses. It can work in two modes:
+
+1. **Standalone Mode** - No additional setup required, just wrap your app
+2. **Integration Mode** - Use with your existing Tanstack Query setup
+
+#### Integration with Existing Tanstack Query Setup
+
+If your app already uses Tanstack Query, you can pass your QueryClient to avoid duplicating caches:
+
+```jsx
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { WalletProvider } from '@txnlab/use-wallet-react'
+import { WalletUIProvider } from '@txnlab/use-wallet-ui-react'
+
+const queryClient = new QueryClient()
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <WalletProvider>
+        <WalletUIProvider queryClient={queryClient}>
+          {/* Your app content */}
+        </WalletUIProvider>
+      </WalletProvider>
+    </QueryClientProvider>
+  )
+}
+```
+
+### Using Wallet Components
+
 There are three main ways to use the wallet UI components:
 
-### Approach 1: Using Default Components (Recommended)
+### Approach 1: Using Default Components
 
 Use the `WalletButton` component for the simplest integration. It automatically handles both connected and disconnected states:
 
 ```jsx
 import { WalletButton } from '@txnlab/use-wallet-ui-react'
 
-function App() {
+function MyComponent() {
   return (
     <div>
       <WalletButton />
@@ -50,6 +100,7 @@ That's it! The `WalletButton` component:
 - Shows a connect button when disconnected
 - Opens the wallet selection dialog when clicked
 - Shows the connected wallet interface after connection
+- Performs NFD lookups for Algorand addresses
 - Handles disconnection
 
 ### Approach 2: Using Customized Button Components with Menus
@@ -65,7 +116,7 @@ import {
   ConnectedWalletMenu,
 } from '@txnlab/use-wallet-ui-react'
 
-function App() {
+function MyComponent() {
   const { activeAddress } = useWallet()
 
   return (
@@ -104,7 +155,7 @@ import {
   ConnectedWalletMenu,
 } from '@txnlab/use-wallet-ui-react'
 
-function App() {
+function MyComponent() {
   const { activeAddress } = useWallet()
 
   return (
@@ -129,40 +180,23 @@ function App() {
 }
 ```
 
-### Approach 4: Using Button Components Directly
+## Components
 
-You can also use the button components directly without the dropdown menus:
+### WalletUIProvider
+
+Enables features like NFD lookup for wallet addresses. It handles Tanstack Query setup internally, so you don't need to install Tanstack Query unless you want to integrate with your existing QueryClient.
 
 ```jsx
-import { useWallet } from '@txnlab/use-wallet-react'
-import {
-  ConnectWalletButton,
-  ConnectedWalletButton,
-} from '@txnlab/use-wallet-ui-react'
-
-function App() {
-  const { activeAddress } = useWallet()
-
-  return (
-    <div>
-      {activeAddress ? (
-        <ConnectedWalletButton
-          className="custom-class"
-          showBalance={false}
-          onClick={() => console.log('Connected button clicked')}
-        />
-      ) : (
-        <ConnectWalletButton
-          className="custom-class"
-          onClick={() => console.log('Connect button clicked')}
-        />
-      )}
-    </div>
-  )
-}
+<WalletUIProvider>{/* Your app content */}</WalletUIProvider>
 ```
 
-## Components
+If you already use Tanstack Query in your app, you can pass your QueryClient:
+
+```jsx
+<WalletUIProvider queryClient={yourQueryClient}>
+  {/* Your app content */}
+</WalletUIProvider>
+```
 
 ### WalletButton
 
@@ -225,6 +259,39 @@ The default button for the connected state that displays the wallet address and 
 ### WalletList
 
 The list of wallets shown in the connect dialog. Generally not used directly.
+
+## NFD Integration
+
+This library includes built-in support for NFD (Non-Fungible Domains) - the naming service for Algorand addresses. NFDs are unique, readable identities for Algorand wallets that allow users to replace their complex addresses with human-readable names.
+
+When a wallet is connected, the library will automatically attempt to look up the NFD associated with the address and display it in the wallet menu.
+
+The NFD lookup is handled through the `useNfd` hook which is used internally by the components but can also be used in your own components:
+
+```jsx
+import { useNfd } from '@txnlab/use-wallet-ui-react'
+
+function MyComponent() {
+  const nfdQuery = useNfd()
+
+  if (nfdQuery.isLoading) {
+    return <div>Loading NFD data...</div>
+  }
+
+  const nfdName = nfdQuery.data?.name
+
+  return <div>{nfdName || 'No NFD found'}</div>
+}
+```
+
+The hook automatically:
+
+- Fetches NFD data for the active wallet address
+- Respects the connected network (MainNet/TestNet)
+- Handles loading, error, and not-found states
+- Properly caches results to minimize API calls
+
+For more information about NFDs, visit the [official NFD website](https://app.nf.domains/).
 
 ## How It Works
 

@@ -18,27 +18,14 @@ import {
   ListboxOption,
   ListboxOptions,
 } from '@headlessui/react'
-import { useWallet, useNetwork } from '@txnlab/use-wallet-react'
-import React, { ReactElement, RefObject, useState, useEffect } from 'react'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { useWallet } from '@txnlab/use-wallet-react'
+import React, { ReactElement, RefObject, useState } from 'react'
+
+import { useNfd } from '../hooks/useNfd'
+import { useWalletUI } from '../providers/WalletUIProvider'
 
 import { ConnectedWalletButton } from './ConnectedWalletButton'
-
-// NFD types
-type NfdRecord = {
-  name: string
-  properties: {
-    verified: {
-      [key: string]: boolean
-    }
-    userDefined: {
-      [key: string]: string
-    }
-  }
-}
-
-type NfdLookupResponse = {
-  [address: string]: NfdRecord | null
-}
 
 // A more specific type for the children that includes ref
 type RefableElement = ReactElement & {
@@ -47,19 +34,19 @@ type RefableElement = ReactElement & {
 
 export interface ConnectedWalletMenuProps {
   children?: RefableElement
-  /** Whether to fetch and display NFD names. Defaults to true. */
-  fetchNfd?: boolean
 }
 
-export function ConnectedWalletMenu({
-  children,
-  fetchNfd = true,
-}: ConnectedWalletMenuProps) {
+function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
   const { activeAddress, activeWallet } = useWallet()
-  const { activeNetwork } = useNetwork()
   const [isOpen, setIsOpen] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
-  const [nfdName, setNfdName] = useState<string | null>(null)
+
+  // Use the NFD hook
+  const nfdQuery = useNfd()
+  const nfdName = nfdQuery.data?.name ?? null
+  const nfdAvatar =
+    nfdQuery.data?.properties?.userDefined?.avatar ||
+    nfdQuery.data?.properties?.verified?.avatar
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -77,53 +64,6 @@ export function ConnectedWalletMenu({
   ])
 
   const labelId = useId()
-
-  // NFD lookup based on activeAddress and activeNetwork
-  useEffect(() => {
-    // Skip fetching if fetchNfd is false or no activeAddress
-    if (!fetchNfd || !activeAddress) {
-      setNfdName(null)
-      return
-    }
-
-    const fetchNfdName = async () => {
-      try {
-        // Determine the API endpoint based on the network
-        // Only check for TestNet, otherwise use MainNet
-        const isTestnet = activeNetwork === 'testnet'
-        const apiEndpoint = isTestnet
-          ? 'https://api.testnet.nf.domains'
-          : 'https://api.nf.domains'
-
-        const response = await fetch(
-          `${apiEndpoint}/nfd/lookup?address=${encodeURIComponent(activeAddress)}`,
-          {
-            method: 'GET',
-            headers: {
-              Accept: 'application/json',
-            },
-          },
-        )
-
-        if (response.ok) {
-          const data: NfdLookupResponse = await response.json()
-          const nfd = data[activeAddress]
-          if (nfd) {
-            setNfdName(nfd.name)
-          } else {
-            setNfdName(null)
-          }
-        } else {
-          setNfdName(null)
-        }
-      } catch (error) {
-        console.error('Error fetching NFD name:', error)
-        setNfdName(null)
-      }
-    }
-
-    fetchNfdName()
-  }, [activeAddress, activeNetwork, fetchNfd])
 
   const handleCopyAddress = () => {
     if (activeAddress) {
@@ -156,9 +96,7 @@ export function ConnectedWalletMenu({
   }
 
   // If no children are provided, create the default connected button
-  const triggerElement = children || (
-    <ConnectedWalletButton fetchNfd={fetchNfd} />
-  )
+  const triggerElement = children || <ConnectedWalletButton />
 
   // Clone the trigger element with the reference props
   const trigger = React.cloneElement(
@@ -183,18 +121,26 @@ export function ConnectedWalletMenu({
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-12 w-12 rounded-full bg-gray-200 dark:bg-[#192A39] flex items-center justify-center overflow-hidden">
                     {/* Placeholder avatar */}
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-8 w-8 text-gray-400 dark:text-gray-500"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                        clipRule="evenodd"
+                    {nfdAvatar ? (
+                      <img
+                        src={nfdAvatar}
+                        alt={`${nfdName} avatar`}
+                        className="w-full h-full object-cover"
                       />
-                    </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-8 w-8 text-gray-400 dark:text-gray-500"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    )}
                   </div>
                   <div>
                     <h3
@@ -339,6 +285,7 @@ export function ConnectedWalletMenu({
 
                 {/* Action buttons */}
                 <div className="flex gap-2">
+                  {/* Copy Address Button */}
                   <button
                     onClick={handleCopyAddress}
                     className="flex-1 py-2 px-4 bg-gray-100 dark:bg-[#192A39] text-gray-700 dark:text-gray-300 font-medium rounded-xl hover:bg-gray-200 dark:hover:bg-[#263A4A] transition-colors text-sm flex items-center justify-center"
@@ -376,6 +323,7 @@ export function ConnectedWalletMenu({
                     )}
                   </button>
 
+                  {/* Disconnect Button */}
                   <button
                     onClick={handleDisconnect}
                     className="flex-1 py-2 px-4 bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300 font-medium rounded-xl hover:bg-red-200 dark:hover:bg-red-800/60 transition-colors text-sm"
@@ -389,5 +337,16 @@ export function ConnectedWalletMenu({
         </FloatingPortal>
       )}
     </>
+  )
+}
+
+// Need to provide the QueryClientProvider here because FloatingPortal breaks context inheritance
+export function ConnectedWalletMenu(props: ConnectedWalletMenuProps) {
+  const { queryClient } = useWalletUI()
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ConnectedWalletMenuContent {...props} />
+    </QueryClientProvider>
   )
 }
