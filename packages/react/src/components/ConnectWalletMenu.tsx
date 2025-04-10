@@ -121,7 +121,7 @@ export function ConnectWalletMenu({ children }: ConnectWalletMenuProps) {
       <FloatingPortal id="wallet-dialog-portal">
         {isOpen && (
           <FloatingOverlay
-            className="grid place-items-center z-50 transition-opacity duration-150 ease-in-out bg-black/30 dark:bg-black/50 data-[state=starting]:opacity-0 data-[state=exiting]:opacity-0 data-[state=entered]:opacity-100"
+            className="grid place-items-center px-4 z-50 transition-opacity duration-150 ease-in-out bg-black/30 dark:bg-black/50 data-[state=starting]:opacity-0 data-[state=exiting]:opacity-0 data-[state=entered]:opacity-100"
             data-state={animationState}
             lockScroll
           >
