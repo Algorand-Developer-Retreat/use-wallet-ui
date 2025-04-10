@@ -223,7 +223,7 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
                 {/* Wallet info section */}
                 {activeWallet && (
                   <div className="mb-2 flex items-center gap-2 px-1 py-0.5">
-                    <div className="h-5 w-5 flex items-center justify-center">
+                    <div className="h-5 w-5 overflow-hidden rounded flex items-center justify-center">
                       {activeWallet.metadata.icon ? (
                         <img
                           src={activeWallet.metadata.icon}
