@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { cn } from '../utils'
+
 export const ConnectWalletButton = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement>
@@ -11,7 +13,7 @@ export const ConnectWalletButton = React.forwardRef<
   return (
     <button
       ref={ref}
-      className={`${connectButtonStyles} ${className}`.trim()}
+      className={cn(connectButtonStyles, className)}
       {...props}
       type="button"
     >

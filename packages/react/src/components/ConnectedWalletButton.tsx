@@ -4,6 +4,7 @@ import React from 'react'
 
 import { useAccountInfo } from '../hooks/useAccountInfo'
 import { useNfd } from '../hooks/useNfd'
+import { cn } from '../utils'
 
 export interface ConnectedWalletButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -57,7 +58,7 @@ export const ConnectedWalletButton = React.forwardRef<
     return (
       <button
         ref={ref}
-        className={`${connectedButtonStyles} ${className}`.trim()}
+        className={cn(connectedButtonStyles, className)}
         disabled={false}
         {...props}
         type="button"
