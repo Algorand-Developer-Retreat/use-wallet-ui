@@ -69,7 +69,7 @@ function WalletAccountsPrefetcher({
   const { activeAddress, activeWallet, algodClient } = useWallet()
   const { activeNetwork } = useNetwork()
 
-  // Use a ref to track the previous activeAddress value
+  // Previous activeAddress value
   const prevActiveAddressRef = useRef<string | null>(null)
 
   useEffect(() => {
@@ -104,7 +104,7 @@ function WalletAccountsPrefetcher({
     // Get all addresses from the wallet
     const addresses = activeWallet!.accounts.map((account) => account.address)
 
-    // If we have addresses, fetch NFDs in batches (NFD API supports up to 20 addresses per request)
+    // If we have addresses, fetch NFDs in batches of 20
     if (addresses.length > 0) {
       // Process addresses in batches of 20 (NFD API limit)
       const batchSize = 20
@@ -143,7 +143,9 @@ function WalletAccountsPrefetcher({
 
           // Handle response
           if (!response.ok && response.status !== 404) {
-            throw new Error(`NFD lookup failed: ${response.statusText}`)
+            throw new Error(
+              `NFD prefetch lookup failed: ${response.statusText}`,
+            )
           }
 
           // If we get a 404 or success, process the response
@@ -167,7 +169,7 @@ function WalletAccountsPrefetcher({
       })
     }
 
-    // For each account in the wallet, prefetch balance data (can't batch these)
+    // For each account in the wallet, prefetch balance data
     addresses.forEach((address) => {
       // Prefetch balance data
       queryClient.prefetchQuery({

@@ -75,7 +75,6 @@ export function useNfd(
       return data[activeAddress]
     },
     enabled: enabled && !!activeAddress,
-    // Don't retry for 404 responses
     retry: (failureCount, error) => {
       // If the error is a 404 (not found), don't retry
       if (error instanceof Error && error.message.includes('404')) {

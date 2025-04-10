@@ -42,8 +42,8 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
 
-  // Use the NFD hook
-  const nfdQuery = useNfd()
+  // NFD for the active address
+  const nfdQuery = useNfd({ enabled: !!activeAddress })
   const nfdName = nfdQuery.data?.name ?? null
   const nfdAvatar =
     nfdQuery.data?.properties?.userDefined?.avatar ||
@@ -116,7 +116,7 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
               <div className="p-4">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-12 w-12 rounded-full bg-gray-200 dark:bg-[#192A39] flex items-center justify-center overflow-hidden">
-                    {/* Placeholder avatar */}
+                    {/* Avatar */}
                     {nfdAvatar ? (
                       <img
                         src={nfdAvatar}

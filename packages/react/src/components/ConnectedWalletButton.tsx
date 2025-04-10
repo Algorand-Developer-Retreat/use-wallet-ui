@@ -16,7 +16,7 @@ export const ConnectedWalletButton = React.forwardRef<
 >(({ className = '', showBalance = true, children, ...props }, ref) => {
   const { activeAddress } = useWallet()
 
-  // Use the balance hook (returns microalgos)
+  // Balance for the active address
   const { data: microAlgos } = useBalance({ enabled: showBalance })
 
   // Convert microalgos to ALGO (1 ALGO = 1,000,000 microalgos)
@@ -25,8 +25,8 @@ export const ConnectedWalletButton = React.forwardRef<
       ? microAlgos / 1_000_000
       : null
 
-  // Use the NFD hook
-  const nfdQuery = useNfd()
+  // NFD for the active address
+  const nfdQuery = useNfd({ enabled: !!activeAddress })
   const nfdName = nfdQuery.data?.name ?? null
 
   // Style for the connected button to match ConnectWalletButton height exactly
