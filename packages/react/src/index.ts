@@ -7,6 +7,7 @@ export { ConnectedWalletButton } from './components/ConnectedWalletButton'
 export { ConnectedWalletMenu } from './components/ConnectedWalletMenu'
 export { WalletButton } from './components/WalletButton'
 export { WalletList } from './components/WalletList'
+export { NfdAvatar } from './components/NfdAvatar'
 
 // Hooks
 export { useNfd } from './hooks/useNfd'

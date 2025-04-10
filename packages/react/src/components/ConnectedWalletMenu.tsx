@@ -27,6 +27,7 @@ import { useNfd } from '../hooks/useNfd'
 import { useWalletUI } from '../providers/WalletUIProvider'
 
 import { ConnectedWalletButton } from './ConnectedWalletButton'
+import { NfdAvatar } from './NfdAvatar'
 
 // A more specific type for the children that includes ref
 type RefableElement = ReactElement & {
@@ -45,9 +46,6 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
   // NFD for the active address
   const nfdQuery = useNfd({ enabled: !!activeAddress })
   const nfdName = nfdQuery.data?.name ?? null
-  const nfdAvatar =
-    nfdQuery.data?.properties?.userDefined?.avatar ||
-    nfdQuery.data?.properties?.verified?.avatar
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -115,28 +113,12 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
             >
               <div className="p-4">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="h-12 w-12 rounded-full bg-gray-200 dark:bg-[#192A39] flex items-center justify-center overflow-hidden">
-                    {/* Avatar */}
-                    {nfdAvatar ? (
-                      <img
-                        src={nfdAvatar}
-                        alt={`${nfdName} avatar`}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-8 w-8 text-gray-400 dark:text-gray-500"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    )}
+                  <div className="h-12 w-12 overflow-hidden">
+                    <NfdAvatar
+                      nfd={nfdQuery.data}
+                      alt={`${nfdName || activeAddress} avatar`}
+                      size={48}
+                    />
                   </div>
                   <div>
                     <h3

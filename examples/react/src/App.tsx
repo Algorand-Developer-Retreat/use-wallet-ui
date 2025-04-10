@@ -9,6 +9,7 @@ import {
   WalletButton,
   WalletUIProvider,
   useNfd,
+  NfdAvatar,
 } from '@txnlab/use-wallet-ui-react'
 
 const walletManager = new WalletManager({
@@ -49,8 +50,6 @@ function NfdDisplay() {
   }
 
   const nfd = nfdQuery.data ?? null
-  const avatarImage =
-    nfd?.properties?.userDefined?.avatar || nfd?.properties?.verified?.avatar
 
   return (
     <div className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
@@ -61,13 +60,7 @@ function NfdDisplay() {
       {nfd ? (
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            {avatarImage && (
-              <img
-                src={avatarImage}
-                alt={`${nfd.name} avatar`}
-                className="w-12 h-12 rounded-full object-cover"
-              />
-            )}
+            <NfdAvatar nfd={nfd} size={48} className="rounded-full" />
             <div>
               <p className="font-medium text-lg text-gray-900 dark:text-white">
                 {nfd.name}

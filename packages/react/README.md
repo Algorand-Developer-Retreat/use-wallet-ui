@@ -290,6 +290,56 @@ The default button for the connected state that displays the wallet address and 
 />
 ```
 
+### NfdAvatar
+
+A component that displays NFD avatar images with automatic handling of IPFS URLs and fallbacks.
+
+```jsx
+import { useNfd, NfdAvatar } from '@txnlab/use-wallet-ui-react'
+
+function MyComponent() {
+  // Get NFD data for the connected address
+  const nfdQuery = useNfd()
+
+  return (
+    <div className="flex items-center">
+      {/* Basic usage with NFD data */}
+      <NfdAvatar nfd={nfdQuery.data} />
+
+      {/* Custom size, alt text, and additional classes */}
+      <NfdAvatar
+        nfd={nfdQuery.data}
+        size={64}
+        alt="User avatar"
+        className="border-2 border-blue-500"
+      />
+
+      {/* With custom fallback element */}
+      <NfdAvatar
+        nfd={nfdQuery.data}
+        fallback={<div className="custom-fallback">No Avatar</div>}
+      />
+    </div>
+  )
+}
+```
+
+**Props**:
+
+- `nfd` - NFD record containing avatar data (from the `useNfd` hook)
+- `alt` - Optional alt text for the image (defaults to NFD name or 'NFD Avatar')
+- `className` - Optional className for styling the image
+- `size` - Optional size in pixels (defaults to 40px)
+- `fallback` - Optional custom element to show when no avatar is available
+
+**Features**:
+
+- Handles IPFS URLs by converting them to HTTPS
+- Checks availability on images.nf.domains and falls back to IPFS gateway if needed
+- Caches results using TanStack Query for better performance
+- Provides a default user icon as fallback when no avatar is available
+- Supports both light and dark mode with appropriate styling
+
 ### WalletList
 
 The list of wallets shown in the connect dialog. Generally not used directly.
@@ -299,6 +349,38 @@ The list of wallets shown in the connect dialog. Generally not used directly.
 This library includes built-in support for NFD (Non-Fungible Domains) - the naming service for Algorand addresses. NFDs are unique, readable identities for Algorand wallets that allow users to replace their complex addresses with human-readable names.
 
 When a wallet is connected, the library will automatically attempt to look up the NFD associated with the address and display it in the wallet menu.
+
+### NFD Avatar Component
+
+For displaying NFD avatars with proper handling of IPFS URLs, use the `NfdAvatar` component:
+
+```jsx
+import { useNfd, NfdAvatar } from '@txnlab/use-wallet-ui-react'
+
+function MyNfdProfile() {
+  const nfdQuery = useNfd()
+  const nfd = nfdQuery.data
+
+  return (
+    <div className="flex items-center gap-3">
+      <NfdAvatar nfd={nfd} size={48} />
+      <div>
+        <h2>{nfd?.name || 'No NFD found'}</h2>
+      </div>
+    </div>
+  )
+}
+```
+
+The `NfdAvatar` component automatically:
+
+- Extracts the avatar URL from the NFD record
+- Converts IPFS URLs to HTTPS URLs
+- Checks availability on images.nf.domains and falls back to IPFS gateway if needed
+- Provides a nice fallback user icon when no avatar is available
+- Works with both light and dark mode
+
+### NFD Data Hook
 
 The NFD lookup is handled through the `useNfd` hook which is used internally by the components but can also be used in your own components:
 
