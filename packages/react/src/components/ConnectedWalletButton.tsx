@@ -1,5 +1,5 @@
 import { useWallet } from '@txnlab/use-wallet-react'
-import { formatNumber } from '@txnlab/utils-ts'
+import { formatNumber, formatShortAddress } from '@txnlab/utils-ts'
 import React from 'react'
 
 import { useBalance } from '../hooks/useBalance'
@@ -32,11 +32,6 @@ export const ConnectedWalletButton = React.forwardRef<
   // Style for the connected button to match ConnectWalletButton height exactly
   const connectedButtonStyles = 'flex items-center'
 
-  // Helper function to truncate addresses
-  const ellipseAddress = (address: string) => {
-    return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`
-  }
-
   return (
     <button
       ref={ref}
@@ -63,7 +58,7 @@ export const ConnectedWalletButton = React.forwardRef<
           {/* Always render the address or NFD name */}
           <div className="flex items-center py-2.5 px-4 bg-[#2D2DF1] dark:bg-[#BFBFF9] text-white dark:text-[#001324] rounded-xl font-bold">
             {nfdName ||
-              (activeAddress ? ellipseAddress(activeAddress) : 'Connect')}
+              (activeAddress ? formatShortAddress(activeAddress) : 'Connect')}
           </div>
         </div>
       )}

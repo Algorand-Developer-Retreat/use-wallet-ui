@@ -20,6 +20,7 @@ import {
 } from '@headlessui/react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { useWallet } from '@txnlab/use-wallet-react'
+import { formatShortAddress } from '@txnlab/utils-ts'
 import React, { ReactElement, RefObject, useState } from 'react'
 
 import { useNfd } from '../hooks/useNfd'
@@ -90,11 +91,6 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
     }
   }
 
-  // Helper function to truncate addresses
-  const ellipseAddress = (address: string) => {
-    return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`
-  }
-
   // If no children are provided, create the default connected button
   const triggerElement = children || <ConnectedWalletButton />
 
@@ -149,17 +145,17 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
                     >
                       {nfdName ||
                         (activeAddress
-                          ? ellipseAddress(activeAddress)
+                          ? formatShortAddress(activeAddress)
                           : 'My Wallet')}
                     </h3>
                     {activeAddress && !nfdName && (
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {ellipseAddress(activeAddress)}
+                        {formatShortAddress(activeAddress)}
                       </p>
                     )}
                     {nfdName && activeAddress && (
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {ellipseAddress(activeAddress)}
+                        {formatShortAddress(activeAddress)}
                       </p>
                     )}
                   </div>
@@ -181,7 +177,7 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
                           <ListboxButton className="grid w-full cursor-default grid-cols-1 rounded-lg border border-gray-300 dark:border-[#192A39] bg-white dark:bg-[#101B29] py-2 px-3 text-left text-gray-800 dark:text-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2D2DF1] dark:focus:ring-[#BFBFF9] focus:border-transparent text-sm">
                             <span className="col-start-1 row-start-1 truncate pr-8">
                               {activeAddress
-                                ? ellipseAddress(activeAddress)
+                                ? formatShortAddress(activeAddress)
                                 : 'Select account'}
                             </span>
                             <span className="col-start-1 row-start-1 self-center justify-self-end">
@@ -215,7 +211,7 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
                                 className="group relative cursor-default select-none py-2 pl-3 pr-9 text-gray-900 dark:text-gray-300 data-[focus]:bg-[#E9E9FD] dark:data-[focus]:bg-[#192A39] data-[focus]:text-gray-900 dark:data-[focus]:text-[#E9E9FD] data-[focus]:outline-none"
                               >
                                 <span className="block truncate font-normal group-data-[selected]:font-medium">
-                                  {ellipseAddress(account.address)}
+                                  {formatShortAddress(account.address)}
                                 </span>
                                 <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-[#2D2DF1] dark:text-[#BFBFF9] group-[&:not([data-selected])]:hidden">
                                   <svg
