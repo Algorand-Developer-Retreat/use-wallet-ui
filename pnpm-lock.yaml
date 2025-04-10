@@ -136,6 +136,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.0.4
         version: 19.1.2(@types/react@19.1.0)
+      algosdk:
+        specifier: ^3.2.0
+        version: 3.2.0
       publint:
         specifier: ^0.3.6
         version: 0.3.11

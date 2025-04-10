@@ -11,7 +11,7 @@ export { WalletList } from './components/WalletList'
 // Hooks
 export { useNfd } from './hooks/useNfd'
 export type { NfdRecord, NfdLookupResponse } from './hooks/useNfd'
-export { useBalance } from './hooks/useBalance'
+export { useAccountInfo } from './hooks/useAccountInfo'
 
 // Providers
 export { WalletUIProvider, useWalletUI } from './providers/WalletUIProvider'

@@ -2,7 +2,7 @@ import { useWallet } from '@txnlab/use-wallet-react'
 import { formatNumber, formatShortAddress } from '@txnlab/utils-ts'
 import React from 'react'
 
-import { useBalance } from '../hooks/useBalance'
+import { useAccountInfo } from '../hooks/useAccountInfo'
 import { useNfd } from '../hooks/useNfd'
 
 export interface ConnectedWalletButtonProps
@@ -16,13 +16,13 @@ export const ConnectedWalletButton = React.forwardRef<
 >(({ className = '', showBalance = true, children, ...props }, ref) => {
   const { activeAddress } = useWallet()
 
-  // Balance for the active address
-  const { data: microAlgos } = useBalance({ enabled: showBalance })
+  // Account information for the active address
+  const { data: accountInfo } = useAccountInfo({ enabled: showBalance })
 
-  // Convert microalgos to ALGO (1 ALGO = 1,000,000 microalgos)
+  // Extract microalgos from accountInfo and convert to ALGO (1 ALGO = 1,000,000 microalgos)
   const algoBalance =
-    microAlgos !== null && microAlgos !== undefined
-      ? microAlgos / 1_000_000
+    accountInfo && accountInfo.amount !== undefined
+      ? Number(accountInfo.amount) / 1_000_000
       : null
 
   // NFD for the active address
