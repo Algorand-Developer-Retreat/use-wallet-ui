@@ -44,7 +44,11 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
   const { activeAddress, activeWallet } = useWallet()
   const [isOpen, setIsOpen] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
-  const [showAvailableBalance, setShowAvailableBalance] = useState(false)
+  const [showAvailableBalance, setShowAvailableBalance] = useState(() => {
+    // Try to get the stored preference from localStorage
+    const stored = localStorage.getItem('uwui:balance-preference')
+    return stored ? stored === 'available' : false
+  })
 
   // NFD for the active address
   const nfdQuery = useNfd({ enabled: !!activeAddress })
@@ -120,7 +124,13 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
   }
 
   const toggleBalanceView = () => {
-    setShowAvailableBalance(!showAvailableBalance)
+    const newValue = !showAvailableBalance
+    setShowAvailableBalance(newValue)
+    // Store the preference in localStorage
+    localStorage.setItem(
+      'uwui:balance-preference',
+      newValue ? 'available' : 'total',
+    )
   }
 
   // If no children are provided, create the default connected button
@@ -326,7 +336,7 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
                 )}
 
                 {/* Divider */}
-                <div className="border-t border-gray-200 dark:border-[#192A39] mb-4 mt-2" />
+                <div className="border-t border-gray-200 dark:border-[#192A39] mb-3 mt-2" />
 
                 {/* Action buttons */}
                 <div className="flex gap-2">
