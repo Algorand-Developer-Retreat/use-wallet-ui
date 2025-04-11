@@ -1,16 +1,11 @@
 import { useWallet } from '@txnlab/use-wallet-react'
 import { useAccountInfo, useNfd, NfdAvatar } from '@txnlab/use-wallet-ui-react'
+import { formatNumber, formatShortAddress } from '@txnlab/utils-ts'
 
 export function AccountDisplay() {
   const { activeAddress } = useWallet()
   const nfdQuery = useNfd()
   const accountQuery = useAccountInfo()
-
-  const formatShortAddress = (address: string) => {
-    return (
-      address.substring(0, 6) + '...' + address.substring(address.length - 4)
-    )
-  }
 
   if (!activeAddress) {
     return (
@@ -74,7 +69,7 @@ export function AccountDisplay() {
         <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <p className="text-sm text-gray-500 dark:text-gray-400">Balance</p>
           <p className="text-xl font-bold text-gray-900 dark:text-white">
-            {algoBalance.toFixed(2)} ALGO
+            {formatNumber(algoBalance, { fractionDigits: 4 })} ALGO
           </p>
         </div>
       </div>

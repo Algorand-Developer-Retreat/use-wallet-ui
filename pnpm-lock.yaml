@@ -74,6 +74,9 @@ importers:
       '@txnlab/use-wallet-ui-react':
         specifier: workspace:*
         version: link:../../packages/react
+      '@txnlab/utils-ts':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@walletconnect/modal':
         specifier: ^2.7.0
         version: 2.7.0(@types/react@19.1.0)(react@19.1.0)
