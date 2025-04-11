@@ -1,4 +1,3 @@
-import './styles.css'
 import { initializeFonts } from './utils/fontLoader'
 
 export { ConnectWalletButton } from './components/ConnectWalletButton'

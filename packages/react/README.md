@@ -83,6 +83,33 @@ If you're using Tailwind CSS v3, you'll need to configure it to scan our library
 
 The key difference between v3 and v4 is that v3 requires explicit content configuration to scan node_modules, while v4 provides the `@source` directive to simplify this process.
 
+### For Projects Without Tailwind CSS
+
+If your project doesn't use Tailwind CSS, you can still use this library by importing our pre-built CSS file. This approach provides a simpler integration path without requiring Tailwind in your project, though it limits customization options:
+
+```jsx
+// Import the pre-built CSS
+import '@txnlab/use-wallet-ui-react/dist/style.css'
+
+// Then use the components as usual
+import { WalletButton } from '@txnlab/use-wallet-ui-react'
+
+function App() {
+  return (
+    <div>
+      <WalletButton />
+    </div>
+  )
+}
+```
+
+Note that when using the pre-built CSS:
+
+- You won't be able to customize the components using Tailwind's theme system
+- The styles will be fixed to our default theme
+- The bundle size might be larger than a targeted build with only the styles you need
+- This is ideal for quickly integrating our components into an existing project without Tailwind
+
 ## Usage
 
 ### Setting up the Provider
@@ -528,10 +555,6 @@ Both `ConnectWalletMenu` and `ConnectedWalletMenu` provide default UI elements w
 2. When clicking the connect button, the wallet selection dialog appears
 3. After connecting, `WalletButton` renders `ConnectedWalletMenu` (which shows the address and balance)
 4. When clicking "Disconnect" in the menu, the wallet disconnects and `WalletButton` returns to step 1
-
-## Styling
-
-Components use Tailwind CSS classes with specific color variables that you can override using your Tailwind configuration.
 
 ## License
 
