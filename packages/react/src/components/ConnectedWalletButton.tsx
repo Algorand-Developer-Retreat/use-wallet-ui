@@ -7,10 +7,15 @@ import { cn } from '../utils'
 
 import { NfdAvatar } from './NfdAvatar'
 
+export interface ConnectedWalletButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  style?: React.CSSProperties
+}
+
 export const ConnectedWalletButton = React.forwardRef<
   HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement>
->(({ className = '', children, ...props }, ref) => {
+  ConnectedWalletButtonProps
+>(({ className = '', children, style, ...props }, ref) => {
   const { activeAddress } = useWallet()
 
   // NFD for the active address
@@ -24,6 +29,7 @@ export const ConnectedWalletButton = React.forwardRef<
     <button
       ref={ref}
       className={cn(connectedButtonStyles, className)}
+      style={style}
       disabled={false}
       {...props}
       type="button"
