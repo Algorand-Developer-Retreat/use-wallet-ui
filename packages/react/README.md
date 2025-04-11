@@ -1,18 +1,18 @@
 # @txnlab/use-wallet-ui-react
 
-React components for use-wallet UI.
+React components for use-wallet UI. This library provides polished UI components for Algorand wallet integration that work with or without Tailwind CSS.
 
-## Prerequisites
+## Dependencies
 
-This package requires the following peer dependencies:
+### Required
 
 - `@txnlab/use-wallet-react` v4
 - React v18 or v19
-- Tailwind CSS
 
-Make sure these dependencies are installed in your project before using this package.
+### Optional Integrations
 
-Note: While this package uses Tanstack Query internally for certain features (like NFD lookups), you don't need to install it separately unless you want to integrate with your existing Tanstack Query setup.
+- **Tanstack Query**: Used internally for NFD lookups. You can integrate with your existing Tanstack Query setup (see [Provider Integration](#integration-with-existing-tanstack-query-setup)).
+- **Tailwind CSS**: Optional for styling. The library works with or without Tailwind (see [Styling Options](#styling-options)).
 
 ## Installation
 
@@ -26,89 +26,6 @@ yarn add @txnlab/use-wallet-ui-react
 # pnpm
 pnpm add @txnlab/use-wallet-ui-react
 ```
-
-## Tailwind CSS Integration
-
-This library requires Tailwind CSS. Here's how to set it up:
-
-### With Tailwind CSS v4
-
-Tailwind CSS v4 introduced the `@source` directive which makes it easy to integrate with component libraries:
-
-1. Install Tailwind CSS v4 according to your project's framework setup:
-
-   - See the [Tailwind CSS Installation Guide](https://tailwindcss.com/docs/installation) for framework-specific instructions
-
-2. In your CSS file, add:
-
-   ```css
-   @import 'tailwindcss';
-   @source "../node_modules/@txnlab/use-wallet-ui-react";
-   ```
-
-   This uses the [`@source` directive](https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-registering-sources) to tell Tailwind to scan our library for classes. The path might need to be adjusted depending on your project structure.
-
-### With Tailwind CSS v3
-
-If you're using Tailwind CSS v3, you'll need to configure it to scan our library's components:
-
-1. Install Tailwind CSS v3 according to your project's framework setup:
-
-   - See the [Tailwind CSS v3 Installation Guide](https://v3.tailwindcss.com/docs/installation) for framework-specific instructions
-
-2. Configure your `tailwind.config.js` to include our components in the content scanning:
-
-   ```js
-   module.exports = {
-     content: [
-       // Your project files
-       './src/**/*.{js,ts,jsx,tsx}',
-
-       // Add this line to scan our library's components
-       './node_modules/@txnlab/use-wallet-ui-react/dist/**/*.{js,ts,jsx,tsx}',
-     ],
-     theme: {
-       extend: {},
-     },
-     plugins: [],
-   }
-   ```
-
-3. In your CSS file, import Tailwind's styles as usual:
-   ```css
-   @tailwind base;
-   @tailwind components;
-   @tailwind utilities;
-   ```
-
-The key difference between v3 and v4 is that v3 requires explicit content configuration to scan node_modules, while v4 provides the `@source` directive to simplify this process.
-
-### For Projects Without Tailwind CSS
-
-If your project doesn't use Tailwind CSS, you can still use this library by importing our pre-built CSS file. This approach provides a simpler integration path without requiring Tailwind in your project, though it limits customization options:
-
-```jsx
-// Import the pre-built CSS
-import '@txnlab/use-wallet-ui-react/dist/style.css'
-
-// Then use the components as usual
-import { WalletButton } from '@txnlab/use-wallet-ui-react'
-
-function App() {
-  return (
-    <div>
-      <WalletButton />
-    </div>
-  )
-}
-```
-
-Note that when using the pre-built CSS:
-
-- You won't be able to customize the components using Tailwind's theme system
-- The styles will be fixed to our default theme
-- The bundle size might be larger than a targeted build with only the styles you need
-- This is ideal for quickly integrating our components into an existing project without Tailwind
 
 ## Usage
 
@@ -222,7 +139,7 @@ function MyComponent() {
 }
 ```
 
-This approach lets you leverage the pre-built button components while still customizing their appearance and getting the dropdown functionality.
+This approach lets you leverage the pre-built button components while still customizing their appearance and getting the dropdown functionality. For customization options, see the [Styling Options](#styling-options) section.
 
 ### Approach 3: Using Completely Custom UI Elements
 
@@ -259,6 +176,128 @@ function MyComponent() {
   )
 }
 ```
+
+## Styling Options
+
+This library provides two styling approaches: using Tailwind CSS for maximum customization or using the pre-built CSS file for simpler integration.
+
+### With Tailwind CSS v4
+
+Tailwind CSS v4 introduced the `@source` directive which makes it easy to integrate with component libraries:
+
+1. Install Tailwind CSS v4 according to your project's framework setup:
+
+   - See the [Tailwind CSS Installation Guide](https://tailwindcss.com/docs/installation) for framework-specific instructions
+
+2. In your CSS file, add:
+
+   ```css
+   @import 'tailwindcss';
+   @source "../node_modules/@txnlab/use-wallet-ui-react";
+   ```
+
+   This uses the [`@source` directive](https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-registering-sources) to tell Tailwind to scan our library for classes. The path might need to be adjusted depending on your project structure.
+
+### With Tailwind CSS v3
+
+If you're using Tailwind CSS v3, you'll need to configure it to scan our library's components:
+
+1. Install Tailwind CSS v3 according to your project's framework setup:
+
+   - See the [Tailwind CSS v3 Installation Guide](https://v3.tailwindcss.com/docs/installation) for framework-specific instructions
+
+2. Configure your `tailwind.config.js` to include our components in the content scanning:
+
+   ```js
+   module.exports = {
+     content: [
+       // Your project files
+       './src/**/*.{js,ts,jsx,tsx}',
+
+       // Add this line to scan our library's components
+       './node_modules/@txnlab/use-wallet-ui-react/dist/**/*.{js,ts,jsx,tsx}',
+     ],
+     theme: {
+       extend: {},
+     },
+     plugins: [],
+   }
+   ```
+
+3. In your CSS file, import Tailwind's styles as usual:
+   ```css
+   @tailwind base;
+   @tailwind components;
+   @tailwind utilities;
+   ```
+
+The key difference between v3 and v4 is that v3 requires explicit content configuration to scan node_modules, while v4 provides the `@source` directive to simplify this process.
+
+### For Projects Without Tailwind CSS
+
+If your project doesn't use Tailwind CSS, you can still use this library by importing our pre-built CSS file. This approach provides a simpler integration path without requiring Tailwind in your project:
+
+```jsx
+// Import the pre-built CSS
+import '@txnlab/use-wallet-ui-react/dist/style.css'
+
+// Then use the components as usual
+import { WalletButton } from '@txnlab/use-wallet-ui-react'
+
+function App() {
+  return (
+    <div>
+      <WalletButton />
+    </div>
+  )
+}
+```
+
+You have two options for customizing components without Tailwind:
+
+1. **Use the `style` prop**: Both `ConnectWalletButton` and `ConnectedWalletButton` components accept a `style` prop for inline CSS customization:
+
+```jsx
+import {
+  ConnectWalletButton,
+  ConnectWalletMenu,
+} from '@txnlab/use-wallet-ui-react'
+
+function App() {
+  return (
+    <ConnectWalletMenu>
+      <ConnectWalletButton
+        style={{
+          backgroundColor: '#3366FF',
+          color: 'white',
+          fontWeight: 'bold',
+        }}
+      >
+        Connect your wallet
+      </ConnectWalletButton>
+    </ConnectWalletMenu>
+  )
+}
+```
+
+2. **Use CSS selectors**: Target the components with your own CSS rules:
+
+```css
+/* In your CSS file */
+.wallet-custom-font {
+  font-family: 'Your Custom Font', sans-serif;
+}
+
+button[type='button'] {
+  /* Additional styling */
+}
+```
+
+Note that when using the pre-built CSS without Tailwind:
+
+- You won't be able to customize the components using Tailwind's theme system
+- The bundle size might be larger than a targeted build with only the styles you need
+- This is ideal for quickly integrating our components into an existing project without Tailwind
 
 ## Components
 
@@ -355,12 +394,35 @@ The default button for the disconnected state. Can be used directly:
 <ConnectWalletButton className="custom-class" />
 ```
 
+You can also use inline styles with the `style` prop for projects without Tailwind CSS:
+
+```jsx
+<ConnectWalletButton
+  style={{
+    backgroundColor: '#FF5733',
+    color: 'white',
+    borderRadius: '8px',
+  }}
+/>
+```
+
 ### ConnectedWalletButton
 
 The default button for the connected state that displays the wallet address and NFD information. Can be used directly:
 
 ```jsx
 <ConnectedWalletButton className="custom-class" />
+```
+
+You can also use inline styles with the `style` prop for projects without Tailwind CSS:
+
+```jsx
+<ConnectedWalletButton
+  style={{
+    border: '2px solid #3366FF',
+    borderRadius: '8px',
+  }}
+/>
 ```
 
 ### NfdAvatar
