@@ -2,7 +2,7 @@ import { useWallet } from '@txnlab/use-wallet-react'
 import { useAccountInfo, useNfd, NfdAvatar } from '@txnlab/use-wallet-ui-react'
 import { formatNumber, formatShortAddress } from '@txnlab/utils-ts'
 
-export function AccountDisplay() {
+export function WalletInfo() {
   const { activeAddress } = useWallet()
   const nfdQuery = useNfd()
   const accountQuery = useAccountInfo()

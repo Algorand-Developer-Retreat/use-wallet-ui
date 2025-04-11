@@ -1,0 +1,442 @@
+/* ==========================================================================
+   Import Fonts
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+:root {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #f9fafb;
+}
+
+body {
+  color: inherit;
+  background-color: inherit;
+}
+
+#root {
+  width: 100%;
+}
+
+/* ==========================================================================
+   Layout Components
+   ========================================================================== */
+.app-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f9fafb;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.header-container {
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+}
+
+.logo-container {
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  width: 100%;
+  max-width: 896px;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.title-section {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.main-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.description {
+  color: #4b5563;
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.code-block {
+  font-size: 0.875rem;
+  background-color: #f3f4f6;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.footer-text {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.footer-link,
+.documentation-link {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.footer-link:hover,
+.documentation-link:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Wallet Components
+   ========================================================================== */
+
+/* Connection Prompt */
+.connect-prompt {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f9fafb;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 2rem;
+}
+
+.connect-icon {
+  margin-bottom: 1rem;
+}
+
+.connect-svg {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto;
+  color: #9ca3af;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.connect-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.connect-description {
+  color: #4b5563;
+}
+
+/* Connected Account */
+.wallet-info {
+  padding: 2rem;
+  background-color: white;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.wallet-info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.wallet-avatar-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.wallet-avatar {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.75rem;
+  background-color: #e5e7eb;
+  overflow: hidden;
+}
+
+.wallet-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.wallet-address {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-family: monospace;
+}
+
+.balance-section {
+  padding: 0.75rem 1rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+}
+
+.balance-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0 0 0.25rem 0;
+}
+
+.balance-amount {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+/* NFD Properties */
+.nfd-properties {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.nfd-properties-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #4b5563;
+  margin-bottom: 1rem;
+}
+
+.nfd-properties-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.nfd-property {
+  background-color: #f9fafb;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.nfd-property-key {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.nfd-property-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+/* Loading State */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f9fafb;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+.loading-text {
+  color: #4b5563;
+}
+
+/* ==========================================================================
+   Responsive Styles
+   ========================================================================== */
+@media (min-width: 640px) {
+  .header-container,
+  .main-content {
+    padding: 0 1.5rem;
+  }
+
+  .main-content {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .wallet-info-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nfd-properties-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-container,
+  .main-content {
+    padding: 0 2rem;
+  }
+
+  .main-content {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+/* ==========================================================================
+   Dark Mode
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  /* Base styles */
+  :root {
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #001324;
+  }
+
+  body {
+    background-color: #001324;
+  }
+
+  .app-wrapper {
+    background-color: #001324;
+  }
+
+  /* Header */
+  .header {
+    background-color: rgba(31, 41, 55, 0.3);
+    border-bottom-color: rgba(55, 65, 81, 0.5);
+  }
+
+  .logo-text {
+    color: #ffffff;
+  }
+
+  /* Content */
+  .main-title {
+    color: #ffffff;
+  }
+
+  .description {
+    color: #d1d5db;
+  }
+
+  .code-block {
+    background-color: #1f2937;
+  }
+
+  /* Wallet components */
+  .connect-prompt {
+    background-color: rgba(31, 41, 55, 0.5);
+    border-color: rgba(55, 65, 81, 0.7);
+  }
+
+  .connect-title {
+    color: #ffffff;
+  }
+
+  .connect-description {
+    color: #d1d5db;
+  }
+
+  .wallet-info {
+    background-color: rgba(31, 41, 55, 0.5);
+    border-color: rgba(55, 65, 81, 0.7);
+    box-shadow: none;
+  }
+
+  .wallet-name {
+    color: #ffffff;
+  }
+
+  .wallet-address {
+    color: #9ca3af;
+  }
+
+  .balance-section {
+    background-color: #1f2937;
+  }
+
+  .balance-label {
+    color: #9ca3af;
+  }
+
+  .balance-amount {
+    color: #ffffff;
+  }
+
+  /* NFD Properties */
+  .nfd-properties {
+    border-top-color: rgba(55, 65, 81, 0.7);
+  }
+
+  .nfd-properties-title {
+    color: #d1d5db;
+  }
+
+  .nfd-property {
+    background-color: #1f2937;
+  }
+
+  .nfd-property-key {
+    color: #9ca3af;
+  }
+
+  .nfd-property-value {
+    color: #ffffff;
+  }
+
+  /* Footer */
+  .footer-text {
+    color: #9ca3af;
+  }
+
+  .footer-link,
+  .documentation-link {
+    color: #60a5fa;
+  }
+
+  .footer-link:hover,
+  .documentation-link:hover {
+    color: #93c5fd;
+  }
+
+  /* Loading */
+  .loading {
+    background-color: rgba(31, 41, 55, 0.5);
+    border-color: rgba(55, 65, 81, 0.7);
+  }
+
+  .loading-text {
+    color: #d1d5db;
+  }
+}

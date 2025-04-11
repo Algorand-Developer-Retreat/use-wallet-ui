@@ -4,9 +4,12 @@ import {
   WalletManager,
   WalletProvider,
 } from '@txnlab/use-wallet-react'
-import { WalletUIProvider, WalletButton } from '@txnlab/use-wallet-ui-react'
+import { WalletButton, WalletUIProvider } from '@txnlab/use-wallet-ui-react'
 
 import { WalletInfo } from './components/WalletInfo'
+
+import '@txnlab/use-wallet-ui-react/dist/style.css' // Import the pre-built CSS file
+import './App.css'
 
 const walletManager = new WalletManager({
   wallets: [
@@ -26,47 +29,43 @@ function App() {
   return (
     <WalletProvider manager={walletManager}>
       <WalletUIProvider>
-        <div className="min-h-screen bg-gray-50 dark:bg-[#001324]">
+        <div className="app-wrapper">
           {/* Header */}
-          <header className="w-full bg-white dark:bg-gray-800/30 border-b border-gray-200 dark:border-gray-700/50">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between items-center h-16">
-                <div className="flex-shrink-0">
-                  <span className="text-lg font-semibold text-gray-800 dark:text-white">
-                    use-wallet-ui
-                  </span>
+          <header className="header">
+            <div className="header-container">
+              <div className="header-content">
+                <div className="logo-container">
+                  <span className="logo-text">use-wallet-ui</span>
                 </div>
-                <div>
+                <div className="wallet-button-container">
                   <WalletButton />
                 </div>
               </div>
             </div>
           </header>
 
-          {/* Content area */}
-          <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="text-center mb-12">
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                React Components for use-wallet
-              </h1>
-              <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          {/* Main content */}
+          <main className="main-content">
+            <div className="title-section">
+              <h1 className="main-title">React Components for use-wallet</h1>
+              <p className="description">
                 A simple example demonstrating wallet connection, NFD profile
                 integration, and balance display using the{' '}
-                <code className="text-sm bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">
-                  @txnlab/use-wallet-ui-react
-                </code>{' '}
+                <code className="code-block">@txnlab/use-wallet-ui-react</code>{' '}
                 package.
               </p>
             </div>
 
+            {/* Account Info */}
             <WalletInfo />
 
-            <div className="mt-8 text-center">
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+            {/* Documentation Link */}
+            <div className="footer">
+              <p className="footer-text">
                 View the{' '}
                 <a
                   href="https://github.com/Algorand-Developer-Retreat/use-wallet-ui"
-                  className="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
+                  className="documentation-link"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -1,5 +1,5 @@
 {
-  "name": "@txnlab/use-wallet-ui-react-example",
+  "name": "@txnlab/use-wallet-ui-react-css-only-example",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,17 +11,15 @@
   "dependencies": {
     "@blockshake/defly-connect": "^1.2.1",
     "@perawallet/connect": "^1.4.2",
-    "@tailwindcss/vite": "^4.1.0",
     "@txnlab/use-wallet-react": "^4.0.1",
-    "@txnlab/use-wallet-ui-react": "workspace:*",
+    "@txnlab/use-wallet-ui-react": "workspace:^",
     "@txnlab/utils-ts": "^0.1.0",
     "@walletconnect/modal": "^2.7.0",
     "@walletconnect/sign-client": "^2.19.2",
     "algosdk": "^3.2.0",
     "lute-connect": "^1.5.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "tailwindcss": "^4.0.17"
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.10",
