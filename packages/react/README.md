@@ -124,10 +124,7 @@ function MyComponent() {
       {activeAddress ? (
         // Connected state with customized button
         <ConnectedWalletMenu>
-          <ConnectedWalletButton
-            className="border-2 border-blue-500"
-            showBalance={false}
-          />
+          <ConnectedWalletButton className="border-2 border-blue-500" />
         </ConnectedWalletMenu>
       ) : (
         // Disconnected state with customized button
@@ -230,10 +227,7 @@ The main component for most use cases. It intelligently switches between:
 - `ConnectedWalletMenu` (with default wallet display) when connected
 
 ```jsx
-<WalletButton
-  showBalance={true} // Whether to show the balance (default: true)
-  showAvailableBalance={false} // Whether to show available balance instead of full balance (default: false)
-/>
+<WalletButton />
 ```
 
 For styling and other customizations, use the component-specific approaches (Approach 2 or 3) instead.
@@ -280,17 +274,11 @@ The default button for the disconnected state. Can be used directly:
 
 ### ConnectedWalletButton
 
-The default button for the connected state that displays the wallet address and (optionally) the ALGO balance. Can be used directly:
+The default button for the connected state that displays the wallet address and NFD information. Can be used directly:
 
 ```jsx
-<ConnectedWalletButton
-  className="custom-class"
-  showBalance={true} // Set to false to hide balance
-  showAvailableBalance={false} // Set to true to show available balance (amount - minBalance) instead of full balance
-/>
+<ConnectedWalletButton className="custom-class" />
 ```
-
-Note: The balance display is responsive - it is hidden on mobile screens (below 768px) and only shown on medium-sized screens (md breakpoint) and larger for better layout on small devices.
 
 ### NfdAvatar
 
