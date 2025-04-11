@@ -81,7 +81,7 @@ export const ConnectedWalletButton = React.forwardRef<
             )}
 
             {/* Always render the address or NFD name */}
-            <div className="flex items-center py-2.5 pl-3 md:pl-3.5 pr-2.5 bg-[#2D2DF1] dark:bg-[#BFBFF9] text-white dark:text-[#001324] rounded-xl font-bold">
+            <div className="flex items-center py-2.5 pl-3 md:pl-3.5 pr-3 bg-[#2D2DF1] dark:bg-[#BFBFF9] text-white dark:text-[#001324] rounded-xl font-bold">
               {/* Avatar */}
               {activeAddress && (
                 <div className="mr-1 md:mr-2 h-6 w-6 overflow-hidden">
@@ -109,7 +109,7 @@ export const ConnectedWalletButton = React.forwardRef<
                   height="18"
                   viewBox="0 0 16 16"
                   fill="none"
-                  className="ml-1 mt-0.5"
+                  className="ml-1.5 mt-0.5"
                   aria-hidden="true"
                 >
                   <path

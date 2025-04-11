@@ -20,9 +20,10 @@ import {
 } from '@headlessui/react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { useWallet } from '@txnlab/use-wallet-react'
-import { formatShortAddress } from '@txnlab/utils-ts'
+import { formatNumber, formatShortAddress } from '@txnlab/utils-ts'
 import React, { ReactElement, RefObject, useState } from 'react'
 
+import { useAccountInfo } from '../hooks/useAccountInfo'
 import { useNfd } from '../hooks/useNfd'
 import { useWalletUI } from '../providers/WalletUIProvider'
 
@@ -42,10 +43,38 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
   const { activeAddress, activeWallet } = useWallet()
   const [isOpen, setIsOpen] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
+  const [showAvailableBalance, setShowAvailableBalance] = useState(false)
 
   // NFD for the active address
   const nfdQuery = useNfd({ enabled: !!activeAddress })
   const nfdName = nfdQuery.data?.name ?? null
+
+  // Get account info for balance display
+  const { data: accountInfo } = useAccountInfo({ enabled: !!activeAddress })
+
+  // Calculate full and available balance
+  const totalBalance = React.useMemo(() => {
+    if (!accountInfo || accountInfo.amount === undefined) {
+      return null
+    }
+    return Number(accountInfo.amount) / 1_000_000
+  }, [accountInfo])
+
+  const availableBalance = React.useMemo(() => {
+    if (
+      !accountInfo ||
+      accountInfo.amount === undefined ||
+      accountInfo.minBalance === undefined
+    ) {
+      return null
+    }
+    const available =
+      Number(accountInfo.amount) - Number(accountInfo.minBalance)
+    return Math.max(0, available / 1_000_000)
+  }, [accountInfo])
+
+  // Use appropriate balance based on toggle state
+  const displayBalance = showAvailableBalance ? availableBalance : totalBalance
 
   const { refs, floatingStyles, context } = useFloating({
     open: isOpen,
@@ -87,6 +116,10 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
     if (activeWallet && activeWallet.setActiveAccount) {
       activeWallet.setActiveAccount(accountAddress)
     }
+  }
+
+  const toggleBalanceView = () => {
+    setShowAvailableBalance(!showAvailableBalance)
   }
 
   // If no children are provided, create the default connected button
@@ -135,6 +168,44 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
                         {formatShortAddress(activeAddress, 6, 4)}
                       </p>
                     )}
+                  </div>
+                </div>
+
+                {/* Balance display with toggle */}
+                <div className="mb-4 bg-gray-50 dark:bg-[#101B29] rounded-lg p-3">
+                  <div className="flex justify-between items-center">
+                    {displayBalance !== null && (
+                      <span className="text-base font-medium text-gray-900 dark:text-white">
+                        {formatNumber(displayBalance, { fractionDigits: 4 })}{' '}
+                        ALGO
+                      </span>
+                    )}
+                    <button
+                      onClick={toggleBalanceView}
+                      className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-[#192A39] py-1 pl-2.5 pr-2 rounded-md hover:bg-gray-300 dark:hover:bg-[#263A4A] transition-colors focus:outline-none"
+                      title={
+                        showAvailableBalance
+                          ? 'Show total balance'
+                          : 'Show available balance'
+                      }
+                    >
+                      {showAvailableBalance ? 'Available' : 'Total'}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="10"
+                        height="10"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="ml-0.5 opacity-80"
+                      >
+                        <path d="m17 10-5-5-5 5" />
+                        <path d="m17 14-5 5-5-5" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
 
@@ -218,7 +289,7 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
                   )}
 
                 {/* Divider */}
-                <div className="border-t border-gray-200 dark:border-[#192A39] mt-2 mb-2"></div>
+                <div className="border-t border-gray-200 dark:border-[#192A39] mt-2 mb-2" />
 
                 {/* Wallet info section */}
                 {activeWallet && (
@@ -254,7 +325,7 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
                 )}
 
                 {/* Divider */}
-                <div className="border-t border-gray-200 dark:border-[#192A39] mb-3 mt-2"></div>
+                <div className="border-t border-gray-200 dark:border-[#192A39] mb-4 mt-2" />
 
                 {/* Action buttons */}
                 <div className="flex gap-2">
