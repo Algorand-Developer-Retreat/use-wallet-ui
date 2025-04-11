@@ -27,6 +27,62 @@ yarn add @txnlab/use-wallet-ui-react
 pnpm add @txnlab/use-wallet-ui-react
 ```
 
+## Tailwind CSS Integration
+
+This library requires Tailwind CSS. Here's how to set it up:
+
+### With Tailwind CSS v4
+
+Tailwind CSS v4 introduced the `@source` directive which makes it easy to integrate with component libraries:
+
+1. Install Tailwind CSS v4 according to your project's framework setup:
+
+   - See the [Tailwind CSS Installation Guide](https://tailwindcss.com/docs/installation) for framework-specific instructions
+
+2. In your CSS file, add:
+
+   ```css
+   @import 'tailwindcss';
+   @source "../node_modules/@txnlab/use-wallet-ui-react";
+   ```
+
+   This uses the [`@source` directive](https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-registering-sources) to tell Tailwind to scan our library for classes. The path might need to be adjusted depending on your project structure.
+
+### With Tailwind CSS v3
+
+If you're using Tailwind CSS v3, you'll need to configure it to scan our library's components:
+
+1. Install Tailwind CSS v3 according to your project's framework setup:
+
+   - See the [Tailwind CSS v3 Installation Guide](https://v3.tailwindcss.com/docs/installation) for framework-specific instructions
+
+2. Configure your `tailwind.config.js` to include our components in the content scanning:
+
+   ```js
+   module.exports = {
+     content: [
+       // Your project files
+       './src/**/*.{js,ts,jsx,tsx}',
+
+       // Add this line to scan our library's components
+       './node_modules/@txnlab/use-wallet-ui-react/dist/**/*.{js,ts,jsx,tsx}',
+     ],
+     theme: {
+       extend: {},
+     },
+     plugins: [],
+   }
+   ```
+
+3. In your CSS file, import Tailwind's styles as usual:
+   ```css
+   @tailwind base;
+   @tailwind components;
+   @tailwind utilities;
+   ```
+
+The key difference between v3 and v4 is that v3 requires explicit content configuration to scan node_modules, while v4 provides the `@source` directive to simplify this process.
+
 ## Usage
 
 ### Setting up the Provider
