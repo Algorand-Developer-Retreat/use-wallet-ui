@@ -27,6 +27,7 @@ import { useAccountInfo } from '../hooks/useAccountInfo'
 import { useNfd } from '../hooks/useNfd'
 import { useWalletUI } from '../providers/WalletUIProvider'
 
+import { AlgoSymbol } from './AlgoSymbol'
 import { ConnectedWalletButton } from './ConnectedWalletButton'
 import { NfdAvatar } from './NfdAvatar'
 
@@ -175,9 +176,9 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
                 <div className="mb-4 bg-gray-50 dark:bg-[#101B29] rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     {displayBalance !== null && (
-                      <span className="text-base font-medium text-gray-900 dark:text-white">
-                        {formatNumber(displayBalance, { fractionDigits: 4 })}{' '}
-                        ALGO
+                      <span className="text-base font-medium text-gray-900 dark:text-white flex items-center gap-1">
+                        {formatNumber(displayBalance, { fractionDigits: 4 })}
+                        <AlgoSymbol />
                       </span>
                     )}
                     <button
