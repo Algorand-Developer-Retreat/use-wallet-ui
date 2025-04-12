@@ -148,7 +148,7 @@ The library supports two styling approaches:
 
 ### Option 1: Using Tailwind CSS (Recommended)
 
-Using Tailwind CSS provides the richest customization experience:
+Using [Tailwind CSS](https://tailwindcss.com/) provides the richest customization experience:
 
 - Full access to Tailwind's utility classes for customization
 - Hover, focus, and active states with simple modifiers
@@ -512,7 +512,7 @@ function CustomWalletButton() {
 
 ## Integration with Tanstack Query
 
-This library uses Tanstack Query internally for data fetching. If your application already uses Tanstack Query, you can integrate the two to avoid duplicate caches:
+This library uses [Tanstack Query](https://tanstack.com/query/latest) internally for data fetching. If your application already uses Tanstack Query, you can integrate the two to avoid duplicate caches:
 
 ```jsx
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
