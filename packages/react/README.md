@@ -89,7 +89,7 @@ function App() {
 That's it! You now have a fully functional wallet connection system with:
 
 - Clean, accessible UI components
-- NFD (Algorand Name Service) integration
+- NFD integration
 - ALGO balance display
 - Account switching
 - Dark/light mode support
