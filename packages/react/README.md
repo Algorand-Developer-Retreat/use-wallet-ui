@@ -246,12 +246,17 @@ import { WalletButton } from '@txnlab/use-wallet-ui-react'
 
 function App() {
   return (
-    <div>
+    // Add the data-wallet-ui attribute to the container of your wallet components
+    <div data-wallet-ui>
       <WalletButton />
     </div>
   )
 }
 ```
+
+**IMPORTANT:** You must add the `data-wallet-ui` attribute to the container of your wallet components. This scopes Tailwind's base styles to only affect components within this container, preventing style conflicts with your application's existing styles.
+
+#### Customizing Components in Non-Tailwind Projects
 
 You have two options for customizing components without Tailwind:
 

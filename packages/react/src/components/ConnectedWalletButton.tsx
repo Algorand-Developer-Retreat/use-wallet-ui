@@ -33,6 +33,7 @@ export const ConnectedWalletButton = React.forwardRef<
       disabled={false}
       {...props}
       type="button"
+      data-wallet-ui
     >
       {children || (
         <div className="flex items-center">

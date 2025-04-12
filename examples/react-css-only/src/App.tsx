@@ -37,7 +37,7 @@ function App() {
                 <div className="logo-container">
                   <span className="logo-text">use-wallet-ui</span>
                 </div>
-                <div className="wallet-button-container">
+                <div data-wallet-ui className="wallet-button-container">
                   <WalletButton />
                 </div>
               </div>

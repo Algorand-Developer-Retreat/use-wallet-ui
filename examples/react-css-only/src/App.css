@@ -199,6 +199,7 @@ body {
 }
 
 .wallet-address {
+  margin: 0;
   font-size: 0.875rem;
   color: #6b7280;
   font-family: monospace;
@@ -280,6 +281,7 @@ body {
 @media (min-width: 640px) {
   .header-container,
   .main-content {
+    box-sizing: border-box;
     padding: 0 1.5rem;
   }
 

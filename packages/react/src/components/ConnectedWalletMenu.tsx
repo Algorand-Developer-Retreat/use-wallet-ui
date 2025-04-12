@@ -154,6 +154,7 @@ function ConnectedWalletMenuContent({ children }: ConnectedWalletMenuProps) {
               {...getFloatingProps()}
               aria-labelledby={labelId}
               className="z-50 w-80 rounded-xl bg-white dark:bg-[#001324] shadow-xl border border-gray-200 dark:border-[#192A39]"
+              data-wallet-ui
             >
               <div className="p-4">
                 <div className="flex items-center gap-3 mb-4">
