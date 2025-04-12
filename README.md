@@ -5,6 +5,8 @@ Ready-to-use UI components for Algorand wallet integration, built as a companion
 [![npm version](https://img.shields.io/npm/v/@txnlab/use-wallet-ui-react.svg)](https://www.npmjs.com/package/@txnlab/use-wallet-ui-react)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+![Preview of use-wallet UI components](./preview.png)
+
 ## Features
 
 - 🔌 **Simple Integration**: Drop-in components for wallet connection
