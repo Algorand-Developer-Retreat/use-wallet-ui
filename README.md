@@ -1,123 +1,81 @@
 # use-wallet UI
 
-## Prerequisites
+Ready-to-use UI components for Algorand wallet integration, built as a companion to [@txnlab/use-wallet](https://github.com/TxnLab/use-wallet).
 
-This package requires the following peer dependencies:
+[![npm version](https://img.shields.io/npm/v/@txnlab/use-wallet-ui-react.svg)](https://www.npmjs.com/package/@txnlab/use-wallet-ui-react)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-- `@txnlab/use-wallet-react` v4
-- React v18 or v19
-- Tailwind CSS
+## Features
 
-Make sure these dependencies are installed in your project before using `@txnlab/use-wallet-ui-react`.
+- 🔌 **Simple Integration**: Drop-in components for wallet connection
+- 🧠 **Smart Components**: Automatic detection of connected state
+- 🎨 **Styling Options**: Works with or without Tailwind CSS
+- 🏷️ **NFD Support**: Built-in Algorand Name Service integration
+- 🔄 **Account Management**: Switch between accounts and wallets
+- 🌓 **Dark Mode**: Automatic light/dark theme support
+- 🚀 **Framework Support**: Currently React, with Vue and SolidJS coming soon
 
-## Installation
+## Quick Start
 
 ```bash
-# npm
 npm install @txnlab/use-wallet-ui-react
-
-# yarn
-yarn add @txnlab/use-wallet-ui-react
-
-# pnpm
-pnpm add @txnlab/use-wallet-ui-react
 ```
 
-## Usage
-
-There are three main ways to use the wallet UI components:
-
-### Approach 1: Using Default Components (Recommended)
-
-Use the `WalletButton` component for the simplest integration:
-
 ```jsx
-import { WalletButton } from '@txnlab/use-wallet-ui-react'
-
-function App() {
-  return (
-    <div>
-      <WalletButton />
-    </div>
-  )
-}
-```
-
-The `WalletButton` component automatically handles both connected and disconnected states.
-
-### Approach 2: Using Customized Button Components with Menus
-
-```jsx
-import { useWallet } from '@txnlab/use-wallet-react'
 import {
-  ConnectWalletButton,
-  ConnectWalletMenu,
-  ConnectedWalletButton,
-  ConnectedWalletMenu,
-} from '@txnlab/use-wallet-ui-react'
+  NetworkId,
+  WalletId,
+  WalletManager,
+  WalletProvider,
+} from '@txnlab/use-wallet-react'
+import { WalletUIProvider, WalletButton } from '@txnlab/use-wallet-ui-react'
+
+// Optional: Import pre-built styles if not using Tailwind
+// import '@txnlab/use-wallet-ui-react/dist/style.css'
+
+// Configure the wallets you want to use
+const walletManager = new WalletManager({
+  wallets: [
+    WalletId.PERA,
+    WalletId.DEFLY,
+    WalletId.LUTE,
+    // Add more wallets as needed
+  ],
+  defaultNetwork: NetworkId.TESTNET,
+})
 
 function App() {
-  const { activeAddress } = useWallet()
-
   return (
-    <div>
-      {activeAddress ? (
-        <ConnectedWalletMenu>
-          <ConnectedWalletButton className="border-2 border-blue-500" />
-        </ConnectedWalletMenu>
-      ) : (
-        <ConnectWalletMenu>
-          <ConnectWalletButton className="bg-green-500 hover:bg-green-600">
-            Connect your wallet
-          </ConnectWalletButton>
-        </ConnectWalletMenu>
-      )}
-    </div>
+    <WalletProvider manager={walletManager}>
+      <WalletUIProvider>
+        {/* Add data-wallet-ui attribute if NOT using Tailwind */}
+        <div data-wallet-ui>
+          <WalletButton />
+        </div>
+      </WalletUIProvider>
+    </WalletProvider>
   )
 }
 ```
 
-### Approach 3: Using Completely Custom UI Elements
+That's it! You now have a fully functional wallet connection system.
 
-```jsx
-import { useWallet } from '@txnlab/use-wallet-react'
-import {
-  ConnectWalletMenu,
-  ConnectedWalletMenu,
-} from '@txnlab/use-wallet-ui-react'
-
-function App() {
-  const { activeAddress } = useWallet()
-
-  return (
-    <div>
-      {activeAddress ? (
-        <ConnectedWalletMenu>
-          <button className="custom-connected-button">
-            My Custom Connected Button
-          </button>
-        </ConnectedWalletMenu>
-      ) : (
-        <ConnectWalletMenu>
-          <button className="custom-connect-button">
-            My Custom Connect Button
-          </button>
-        </ConnectWalletMenu>
-      )}
-    </div>
-  )
-}
-```
-
-For more detailed documentation, please refer to the [package README](./packages/react/README.md).
-
-## Example
-
-Check out the [working example](./examples/react) in the `examples/react` directory.
-
-## Package
+## Packages
 
 - [@txnlab/use-wallet-ui-react](./packages/react) - React components for use-wallet UI
+
+## Examples
+
+Check out our working examples:
+
+- [Tailwind CSS Example](./examples/react-tailwind) - Integration with Tailwind CSS
+- [CSS-only Example](./examples/react) - Integration without Tailwind CSS
+
+## Documentation
+
+For detailed documentation, please see:
+
+- [React Package README](./packages/react/README.md)
 
 ## Development
 
