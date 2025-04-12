@@ -383,11 +383,12 @@ function Profile() {
 
   // Access NFD properties
   const name = nfdQuery.data?.name
-  const avatar = nfdQuery.data?.avatar
+  const userProperties = nfdQuery.data?.properties?.userDefined
 
   return (
     <div>
       <h2>{name || 'No NFD found'}</h2>
+      <p>{userProperties?.bio || 'No bio'}</p>
     </div>
   )
 }
