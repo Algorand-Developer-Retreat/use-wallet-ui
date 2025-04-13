@@ -12,7 +12,7 @@ Ready-to-use UI components for Algorand wallet integration, built as a companion
 - 🔌 **Simple Integration**: Drop-in components for wallet connection
 - 🧠 **Smart Components**: Automatic detection of connected state
 - 🎨 **Styling Options**: Works with or without Tailwind CSS
-- 🏷️ **NFD Support**: Built-in Algorand Name Service integration
+- 🏷️ **NFD Support**: Built-in NFD integration
 - 🔄 **Account Management**: Switch between accounts and wallets
 - 🌓 **Dark Mode**: Automatic light/dark theme support
 - 🚀 **Framework Support**: Currently React, with Vue and SolidJS coming soon
@@ -61,6 +61,8 @@ function App() {
 ```
 
 That's it! You now have a fully functional wallet connection system.
+
+For complete documentation, see [React Package Documentation](./packages/react/README.md).
 
 ## Packages
 
