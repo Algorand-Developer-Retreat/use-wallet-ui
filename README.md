@@ -72,8 +72,8 @@ For complete documentation, see [React Package Documentation](./packages/react/R
 
 Check out our working examples:
 
-- [Tailwind CSS Example](./examples/react-tailwind) - Integration with Tailwind CSS
-- [CSS-only Example](./examples/react) - Integration without Tailwind CSS
+- [Tailwind CSS Example](./examples/react) - Integration with Tailwind CSS
+- [CSS-only Example](./examples/react-css-only) - Integration without Tailwind CSS
 
 ## Documentation
 
