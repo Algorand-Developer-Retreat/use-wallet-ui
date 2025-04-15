@@ -57,7 +57,7 @@
     "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "generate:css": "npx @tailwindcss/cli -c ./tailwind.config.js -i ./src/input.css -o ./dist/style.css"
+    "generate:css": "npx @tailwindcss/cli -c ./tailwind.config.js -i ./src/input.css -o ./dist/style.css && node ./scripts/post-process-css.js"
   },
   "peerDependencies": {
     "@txnlab/use-wallet-react": "^4.0.1",
