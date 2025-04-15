@@ -12,7 +12,13 @@ export default defineConfig({
     },
     outDir: 'dist',
     rollupOptions: {
-      external: ['react', 'react-dom', '@txnlab/use-wallet-react'],
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        '@txnlab/use-wallet-react',
+      ],
       output: [
         {
           format: 'es',
@@ -21,6 +27,12 @@ export default defineConfig({
           preserveModules: false,
           exports: 'named',
           assetFileNames: 'assets/[name][extname]',
+          globals: {
+            'react-dom': 'ReactDom',
+            react: 'React',
+            'react/jsx-runtime': 'ReactJsxRuntime',
+            'react/jsx-dev-runtime': 'ReactJsxDevRuntime',
+          },
         },
         {
           format: 'cjs',
@@ -29,6 +41,12 @@ export default defineConfig({
           preserveModules: false,
           exports: 'named',
           assetFileNames: 'assets/[name][extname]',
+          globals: {
+            'react-dom': 'ReactDom',
+            react: 'React',
+            'react/jsx-runtime': 'ReactJsxRuntime',
+            'react/jsx-dev-runtime': 'ReactJsxDevRuntime',
+          },
         },
       ],
       treeshake: {
