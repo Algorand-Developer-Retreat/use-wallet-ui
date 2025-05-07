@@ -96,7 +96,6 @@ export function NfdAvatar({
         }}
         aria-label={imgAlt}
         role="img"
-        data-wallet-ui
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

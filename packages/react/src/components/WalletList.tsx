@@ -7,7 +7,7 @@ export interface WalletListProps {
 
 export function WalletList({ wallets, handleWalletClick }: WalletListProps) {
   return (
-    <ul className="space-y-1.5" data-wallet-ui>
+    <ul className="space-y-1.5">
       {wallets.map((wallet) => (
         <li key={wallet.id}>
           <button

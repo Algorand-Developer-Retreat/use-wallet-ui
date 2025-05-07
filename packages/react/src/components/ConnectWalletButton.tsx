@@ -22,7 +22,6 @@ export const ConnectWalletButton = React.forwardRef<
       style={style}
       {...props}
       type="button"
-      data-wallet-ui
     >
       {children || 'Connect Wallet'}
     </button>
