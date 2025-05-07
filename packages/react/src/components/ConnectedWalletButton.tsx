@@ -38,7 +38,7 @@ export const ConnectedWalletButton = React.forwardRef<
       {children || (
         <div className="flex items-center">
           {/* Always render the address or NFD name */}
-          <div className="flex items-center py-2.5 pl-3 md:pl-3.5 pr-3 bg-[#2D2DF1] dark:bg-[#BFBFF9] text-white dark:text-[#001324] rounded-xl font-bold">
+          <div className="flex items-center py-2.5 pl-3 md:pl-3.5 pr-3 bg-[#2D2DF1] dark:bg-[#BFBFF9] text-white dark:text-[#001324] rounded-xl cursor-pointer font-bold">
             {/* Avatar */}
             {activeAddress && (
               <div className="mr-1 md:mr-2 h-6 w-6 overflow-hidden">
