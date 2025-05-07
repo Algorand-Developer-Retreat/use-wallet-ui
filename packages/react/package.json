@@ -1,6 +1,6 @@
 {
   "name": "@txnlab/use-wallet-ui-react",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "React components for use-wallet UI",
   "type": "module",
   "main": "dist/cjs/index.cjs",
