@@ -10,11 +10,6 @@ export function WalletInfo() {
   if (!activeAddress) {
     return (
       <div className="connect-prompt">
-        <div className="connect-icon">
-          <svg viewBox="0 0 24 24" className="connect-svg">
-            <path d="M12 15v2m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-          </svg>
-        </div>
         <h3 className="connect-title">Connect Your Wallet</h3>
         <p className="connect-description">
           Connect your Algorand wallet to view your NFD profile and balance

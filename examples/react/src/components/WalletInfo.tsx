@@ -10,21 +10,6 @@ export function WalletInfo() {
   if (!activeAddress) {
     return (
       <div className="text-center p-8 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
-        <div className="mb-4">
-          <svg
-            className="w-12 h-12 mx-auto text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 15v2m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-            />
-          </svg>
-        </div>
         <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
           Connect Your Wallet
         </h3>
