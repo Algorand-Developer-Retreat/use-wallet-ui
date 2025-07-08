@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   test:
-    name: Lint, Type Check, and Build
+    name: Lint, Type Check, Test, and Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -54,6 +54,9 @@ jobs:
 
       - name: Type Check
         run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
 
       - name: Build
         run: pnpm build
